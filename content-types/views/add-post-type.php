@@ -61,7 +61,7 @@
 <!-- DEFAULT LABELS SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span> <?php echo __('Default labels', 'framework'); ?></span></h3>
 		<div class="inside" style="display:none;">
 			<table class="form-table">
@@ -155,7 +155,7 @@
 <!-- ADVANCED SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span><?php echo __('Advanced', 'framework'); ?></span></h3>
 		<div class="inside" style="display:none;">
 			<table class="form-table">
@@ -612,7 +612,7 @@
 <!-- ASSIGNED TAXONOMIES SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span><?php echo __('Assigned taxonomies', 'framework'); ?></span></h3>
 		<div class="inside">
 			<?php 
@@ -633,7 +633,7 @@
 <!-- ASSIGNED FIELDS SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span><?php echo __('Assigned fields', 'framework'); ?></span></h3>
 		<div class="inside" >
 			<?php 
