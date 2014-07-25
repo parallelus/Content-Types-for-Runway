@@ -3,7 +3,7 @@
     Extension Name: Content types
     Extension URI: https://github.com/parallelus/Content-Types-for-Runway
     Version: 0.8.3
-    Description: Create Custom Post Types, Taxonomies and Meta Fields in WordPress themes.
+    Description: Content types
     Author: Parallelus
     Author URI: http://runwaywp.com
     Text Domain:
@@ -11,6 +11,9 @@
     Network:
     Site Wide Only:
 */
+
+// Reset
+if (0) update_option('content_types', array());
 
 // Settings
 $fields = array(
@@ -34,11 +37,13 @@ $settings = array(
 		'wp-color-picker',
 		'formsbuilder',
 		'ace',
+		'rw_nouislider',
 		FRAMEWORK_URL.'framework/js/jquery.tmpl.min.js',
 		FRAMEWORK_URL.'extensions/content-types/js/fields.js',
 	),
 	'css' => array(
 		'formsbuilder-style',
+		'rw_nouislider_css'
 	)
 );
 
@@ -68,17 +73,17 @@ function title_buttons_add_new( $title ) {
 	$navigation = (isset($_GET['navigation'])) ? $_GET['navigation'] : '';
 
 	if( $page == 'content-types'&& $navigation == 'taxonomies' ){
-		$title .= ' <a href="?page=content-types&navigation=add-taxonomy" class="add-new-h2">'. __( 'Add New Taxonomy', 'framework' ) .'</a>';		
+		$title .= ' <a href="?page=content-types&navigation=add-taxonomy" class="add-new-h2">'. __( 'Add New Taxonomy', FRAMEWORK_TEXT ) .'</a>';		
 	}
 	elseif( $page == 'content-types'&& $navigation == 'fields' ){
-		$title .= ' <a href="?page=content-types&navigation=add-field" class="add-new-h2">'. __( 'Add New Field', 'framework' ) .'</a>';				
+		$title .= ' <a href="?page=content-types&navigation=add-field" class="add-new-h2">'. __( 'Add New Field', FRAMEWORK_TEXT ) .'</a>';				
 	}
 
 	elseif ($page == 'content-types' && ($navigation == 'add-inputs' || $navigation == 'delete-input')) {
-		$title .= ' <a href="?page=content-types&navigation=add-input-field&alias='.$_REQUEST['alias'].'" class="add-new-h2">'. __( 'Add New Input', 'framework' ) .'</a>';
+		$title .= ' <a href="?page=content-types&navigation=add-input-field&alias='.$_REQUEST['alias'].'" class="add-new-h2">'. __( 'Add New Input', FRAMEWORK_TEXT ) .'</a>';
 	}
 	elseif ( $page == 'content-types' && $navigation == '') {
-		$title .= ' <a href="?page=content-types&navigation=add-post-type" class="add-new-h2">'. __( 'Add New Content Type', 'framework' ) .'</a>';
+		$title .= ' <a href="?page=content-types&navigation=add-post-type" class="add-new-h2">'. __( 'Add New Content Type', FRAMEWORK_TEXT ) .'</a>';
 	}
 	
 	return $title;
