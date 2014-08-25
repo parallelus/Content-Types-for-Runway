@@ -10,28 +10,47 @@
 		case 'edit-post-type':{
 			$navText = array(__( 'Edit Post Type', 'framework' ));
 		} break;	
+		case 'confirm-delete-post-type':{
+			$navText = array(__( 'Delete Post Type', 'framework' ));
+		} break;
 
 		case 'add-taxonomy':{
-			$navText = array(__( 'Taxonomies', 'framework' ), __( 'Add taxonomy', 'framework' ));
+			$navText = array(__( 'Add taxonomy', 'framework' ));
+		} break;
+		case 'edit-taxonomy':{
+			$navText = array(__( 'Edit Taxonomy', 'framework' ));
+		} break;
+		case 'confirm-delete-taxonomy':{
+			$navText = array(__( 'Delete Taxonomy', 'framework' ));
+		} break;
+
+		case 'add-field':{
+			$navText = array(__( 'Fields', 'framework' ), __( 'Add Field', 'framework' ));
+		} break;
+		case 'edit-field':{
+			$navText = array(__( 'Fields', 'framework' ), __( 'Edit Field', 'framework' ));
+		} break;
+		case 'confirm-delete-field':{
+			$navText = array(__( 'Fields', 'framework' ), __( 'Delete Field', 'framework' ));
 		} break;
 
 		case 'add-inputs':{
 			$navText = array(__( 'Fields', 'framework' ), __( 'Manage inputs', 'framework' ));
-		}
+		} break;
 
 		case 'delete-input':{
 			$navText = array(__( 'Fields', 'framework' ), __( 'Manage inputs', 'framework' ));
-		}
+		} break;
 
 		case 'edit-input':{
 			$navText = array(__( 'Fields', 'framework' ), __( 'Manage inputs', 'framework' ));
-		}
+		} break;
 		
 	}  
 	$this->navigation_bar( $navText );
 
 ?>
-<?php if(!in_array($this->navigation, array('add-post-type', 'add-taxonomy', 'add-field', 'add-inputs', 'add-input-field', 'delete-input'))): ?>
+<?php if(!in_array($this->navigation, array('add-post-type', 'edit-post-type', 'confirm-delete-post-type', 'add-taxonomy', 'edit-taxonomy', 'confirm-delete-taxonomy', 'add-field', 'edit-field', 'confirm-delete-field', 'add-inputs', 'add-input-field', 'delete-input'))): ?>
 	<h2 class="nav-tab-wrapper tab-controlls" style="padding-top: 9px;">
 		<a href="<?php echo $this->self_url(); ?>" class="nav-tab <?php if($this->navigation == '' || $this->navigation == 'edit-post-type') {echo "nav-tab-active";} ?>"><?php _e('Content Types', 'framework') ?></a>
 		<a href="<?php echo $this->self_url('taxonomies'); ?>" class="nav-tab <?php if($this->navigation == 'taxonomies' || $this->navigation == 'edit-taxonomy') {echo "nav-tab-active";} ?>"><?php _e('Taxonomies', 'framework') ?></a>
