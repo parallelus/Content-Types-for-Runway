@@ -300,7 +300,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		$post_type = null; $icon = null;
 		if(isset($this->content_types_options['content_types']) )
 			foreach ($this->content_types_options['content_types'] as $key => $value) {
-				if($value['advanced']['menu_icon'] != 'custom-icon'){
+				if(isset($value['advanced']['menu_icon']) && $value['advanced']['menu_icon'] != 'custom-icon'){
 				    ?>
 				    <script type="text/javascript">			    			         
 						(function($){
