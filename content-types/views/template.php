@@ -24,25 +24,25 @@
 		} break;
 
 		case 'add-field':{
-			$navText = array(__( 'Fields', 'framework' ), __( 'Add Field', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Add Field', 'framework' ));
 		} break;
 		case 'edit-field':{
-			$navText = array(__( 'Fields', 'framework' ), __( 'Edit Field', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Edit Field', 'framework' ));
 		} break;
 		case 'confirm-delete-field':{
-			$navText = array(__( 'Fields', 'framework' ), __( 'Delete Field', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Delete Field', 'framework' ));
 		} break;
 
 		case 'add-inputs':{
-			$navText = array(__( 'Fields', 'framework' ), __( 'Manage inputs', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
 		} break;
 
 		case 'delete-input':{
-			$navText = array(__( 'Fields', 'framework' ), __( 'Manage inputs', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
 		} break;
 
 		case 'edit-input':{
-			$navText = array(__( 'Fields', 'framework' ), __( 'Manage inputs', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
 		} break;
 		
 	}  
