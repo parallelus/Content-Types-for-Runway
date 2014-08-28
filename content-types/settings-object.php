@@ -23,6 +23,8 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		add_action('wp_ajax_save_inputs_fields', array($this, 'save_inputs_fields'));		
 
 		add_action('admin_head', array($this, 'set_icon_styles_to_post_type'));
+		
+		//add_action('init', array($this, 'init'));
 
 	}
 
@@ -339,7 +341,36 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		if( isset( $_REQUEST['action'] ) && !empty( $_REQUEST['action'] ) ){
 			$content_types_admin->action = $_REQUEST['action'];
 		}
-
+		
+		//php redirection instead javascript in admin.php
+		if ( $content_types_admin->action == 'update-post-type' || $content_types_admin->action == 'update-post-type-main') {
+			switch ($content_types_admin->action) {
+				case 'update-post-type':{
+					if ( isset($_POST['labels']['name'], $_POST['labels']['singular_name'], $_POST['labels']['menu_name'], $_POST['labels']['parent_item_colon'])) {
+						$options = $_POST;
+						foreach($options['labels'] as $key => $value) {
+							$options['labels'][$key] = stripslashes($value);
+						}
+						$options['alias'] = isset($_GET['alias']) ? $_GET['alias'] :  sanitize_title($_POST['labels']['name']);
+						$content_types_admin->add_custom_content_type($options);
+						//admin.php?page=content-types
+						
+						header('Location: '.admin_url('admin.php?page=content-types'));
+						die();
+						
+					} else {
+						flush_rewrite_rules();
+					}
+				} break;
+			
+				case 'update-post-type-main':{
+					$options = $_POST;
+					$content_types_admin->save_main_options($options);
+					header('Location: '.admin_url('admin.php?page=content-types'));
+					die();
+				} break;
+			}
+		}
 	}
 
 	function after_settings_init() {
