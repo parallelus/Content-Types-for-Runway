@@ -23,7 +23,7 @@
 				<p class="description required"><?php echo __('Required', 'framework'); ?></p>
 			</th>
 			<td>
-				<input class="input-text" id="contenttype_singuldar_name" type="text" name="labels[singular_name]" value="<?php echo (isset($post_type)) ? $post_type['labels']['singular_name'] : ''; ?>">
+				<input class="input-text" id="contenttype_singular_name" type="text" name="labels[singular_name]" value="<?php echo (isset($post_type)) ? $post_type['labels']['singular_name'] : ''; ?>">
 				<p class="description"><?php echo __('Name for a single item. e.g. Product, Event or Movie', 'framework'); ?></p>
 			</td>
 		</tr>
@@ -686,7 +686,7 @@
 
 		$('#save-button').click(function(e){						
 			var contenttype_name = $('#contenttype_name').val().trim();
-			var contenttype_singuldar_name = $('#contenttype_singuldar_name').val().trim();
+			var contenttype_singular_name = $('#contenttype_singular_name').val().trim();
 			var contenttype_menu_name = $('#contenttype_menu_name').val().trim();
 			var contenttype_parent_item_colon = $('#contenttype_parent_item_colon').val().trim();
 			
@@ -697,11 +697,11 @@
 				$('#contenttype_name').css('border-color', '');	
 			}
 
-			if(contenttype_singuldar_name == ''){
-				$('#contenttype_singuldar_name').css('border-color', 'Red');
+			if(contenttype_singular_name == ''){
+				$('#contenttype_singular_name').css('border-color', 'Red');
 			}
 			else{
-				$('#contenttype_singuldar_name').css('border-color', '');	
+				$('#contenttype_singular_name').css('border-color', '');	
 			}
 
 			if(contenttype_menu_name == ''){
@@ -718,7 +718,7 @@
 				$('#contenttype_parent_item_colon').css('border-color', '');	
 			}
 			
-			if( contenttype_name &&	contenttype_singuldar_name && contenttype_menu_name && 	contenttype_parent_item_colon){
+			if( contenttype_name &&	contenttype_singular_name && contenttype_menu_name && 	contenttype_parent_item_colon){
 				$('#add-edit-contenttype').submit();
 			}
 		});

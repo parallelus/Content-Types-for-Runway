@@ -5,6 +5,7 @@
 	switch ($this->navigation) {
 		case 'add-post-type':{
 			$navText = array(__( 'Add Post Type', 'framework' ));
+			wp_enqueue_script( 'auto-fill', FRAMEWORK_URL.'extensions/content-types/js/auto_fill.js' );
 		} break;
 		case 'edit-post-type':{
 			$navText = array(__( 'Edit Post Type', 'framework' ));
