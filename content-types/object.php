@@ -55,4 +55,24 @@ class Content_Types_Settings_Object extends Runway_Object {
 		}
 	}	
 } 
+
+// Shortcut functions to retrieve meta field data
+if (!function_exists('get_options_meta')) :
+function get_options_meta( $alias = '' ) {
+	$id = get_the_ID();
+	if (!empty($alias) && !is_null($id)) {
+		$meta_value = get_options_data('formsbuilder_'.get_the_ID(), $alias);
+		if( !empty($meta_value) ) {
+			return $meta_value;	
+		}
+	}
+}
+endif;
+
+// Echo the value
+if (!function_exists('options_meta')) :
+function options_meta( $alias = '' ) {
+	echo get_options_meta( $alias );
+}
+endif;
 ?>
