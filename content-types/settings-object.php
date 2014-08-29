@@ -32,6 +32,8 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		$current_post_type = get_post_type();
 		$current_post = get_post();
 		$content_type = $this->get_custom_content_types($current_post_type);
+		
+		wp_enqueue_style('content_types_css', FRAMEWORK_URL.'extensions/content-types/css/content-types.css');
 
 		switch ($current_post_type) {
 			case 'post':{
@@ -393,7 +395,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function load_admin_js() {
-		/* none */		
+		/* none */
 	} 
 
 }
