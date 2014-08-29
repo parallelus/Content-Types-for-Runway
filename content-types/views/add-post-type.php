@@ -487,7 +487,7 @@
 												<?php echo __('Include URL Slug with Items', 'framework'); ?>
 												<br />
 												<input class="checkbox" type="checkbox" id="rewrite_with_front" name="advanced[rewrite][with_front]" value="true" <?php echo isset($post_type['advanced']['rewrite']['with_front']) || $_GET['navigation'] == 'add-post-type' ? 'checked' : ''; ?>> <?php echo __('Yes', 'framework'); ?>
-												<p class="description"><?php echo __('Include permalink base in single item URL. i.e. Enabled: www.example.com/event/post, Disabled: www.example.com/post', 'framework'); ?></p>
+												<p class="description"><?php echo __('Include permalink base in single item URL. The base will use the value of "Name (Singular)" i.e. Enabled: www.example.com/calendar/event/, Disabled: www.example.com/event', 'framework'); ?></p>
 											</td>				
 										</tr>
 										<tr class="">
