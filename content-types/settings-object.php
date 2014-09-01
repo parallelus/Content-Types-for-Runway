@@ -34,6 +34,14 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		$content_type = $this->get_custom_content_types($current_post_type);
 		
 		wp_enqueue_style('content_types_css', FRAMEWORK_URL.'extensions/content-types/css/content-types.css');
+		wp_enqueue_style( 'wp-color-picker');
+		wp_enqueue_style('rw_nouislider_css', FRAMEWORK_URL.'data-types/range-slider/css/jquery.nouislider.css');
+		
+		//need to test this
+		wp_enqueue_script('ace', FRAMEWORK_URL.'data-types/code-editor/js/ace/src-noconflict/ace.js');
+		wp_enqueue_script( 'wp-color-picker');
+		wp_enqueue_script('jquery-ui-datepicker');
+		wp_enqueue_script('rw_nouislider', FRAMEWORK_URL.'data-types/range-slider/js/jquery.nouislider.min.js');
 
 		switch ($current_post_type) {
 			case 'post':{

@@ -1,5 +1,8 @@
 <?php
 	global $content_types_settings, $wp_roles;
+	
+	if (!did_action('wp_enqueue_media'))
+		wp_enqueue_media();
 ?>
 
 <form action="<?php echo $this->self_url(); ?>&action=update-post-type<?php echo isset($post_type) ? '&alias='.$post_type['alias'] : ''; ?>" id="add-edit-contenttype" method="post">
@@ -658,6 +661,8 @@
 </form>
 
 <script type="text/javascript">
+	var contentIconFrame;
+	
 	(function($){
 		$(document).ready(function(){
 			$('#menu_icon').change(function(){
@@ -672,14 +677,34 @@
 			}
 		});
 
-		$("#upload_image_button").click(function() {					
-			tb_show("", "media-upload.php?type=image&amp;TB_iframe=true");
+		$("#upload_image_button").click(function(e) {	
+			
+			e.preventDefault();
+			e.stopPropagation();
+			
+			if ( contentIconFrame ) {
+				contentIconFrame.open();
+				return;
+			}
+			
+			contentIconFrame = wp.media.frames.contentIconFrame = wp.media({
+				multiple: false
+			});
+
+			contentIconFrame.on( 'select', function() {
+				
+				var attachment = contentIconFrame.state().get('selection').first().toJSON();
+				$('#custom_icon_file').val(attachment.url);
+			});
+			contentIconFrame.open();
+			
+			/*tb_show("", "media-upload.php?type=image&amp;TB_iframe=true");
 
 			window.send_to_editor = function(html) {
 				imgurl = $("img", html).attr("src");
 				$("#custom_icon_file").val(imgurl);
 				tb_remove();
-			}
+			}*/
 
 			return false;
 		});
