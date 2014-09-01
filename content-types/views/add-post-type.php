@@ -1,8 +1,11 @@
 <?php
 	global $content_types_settings, $wp_roles;
-	
+
 	if (!did_action('wp_enqueue_media'))
 		wp_enqueue_media();
+
+	wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'extensions/content-types/css/dashicons.css');
+	wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'extensions/content-types/css/custom-style.css');
 ?>
 
 <form action="<?php echo $this->self_url(); ?>&action=update-post-type<?php echo isset($post_type) ? '&alias='.$post_type['alias'] : ''; ?>" id="add-edit-contenttype" method="post">
@@ -233,7 +236,8 @@
 						<td>
 							<select name="advanced[menu_icon]" id="menu_icon">
 								<!--<option value="menu-icon-dashboard" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-dashboard') ? 'selected="true"' : ''; ?>>Dashboard icon</option>-->
-								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-post') ? 'selected="true"' : ''; ?>><?php echo __('Posts icon', 'framework'); ?></option>
+								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-wp') ? 'selected="true"' : ''; ?>><?php echo __('Default WordPress icon', 'framework'); ?></option>
+<!-- 								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-post') ? 'selected="true"' : ''; ?>><?php echo __('Posts icon', 'framework'); ?></option>
 								<option value="menu-icon-media" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-media') ? 'selected="true"' : ''; ?>><?php echo __('Media icon', 'framework'); ?></option>
 								<option value="menu-icon-links" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-links') ? 'selected="true"' : ''; ?>><?php echo __('Links icon', 'framework'); ?></option>
 								<option value="menu-icon-page" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-page') ? 'selected="true"' : '';?>><?php echo __('Page icon', 'framework'); ?></option>
@@ -243,8 +247,10 @@
 								<option value="menu-icon-users" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-users') ? 'selected="true"' : ''; ?>><?php echo __('Users icon', 'framework'); ?></option>
 								<option value="menu-icon-tools" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-tools') ? 'selected="true"' : ''; ?>><?php echo __('Tools icon', 'framework'); ?></option>
 								<option value="menu-icon-settings" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-settings') ? 'selected="true"' : ''; ?>><?php echo __('Settings icon', 'framework'); ?></option>
-								<option value="custom-icon" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'custom-icon') ? 'selected="true"' : ''; ?>><?php echo __('Custom icon', 'framework'); ?></option>
-							</select>							
+ -->								<option value="custom-icon" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'custom-icon') ? 'selected="true"' : ''; ?>><?php echo __('Custom icon', 'framework'); ?></option>
+							</select>
+							<input class='dashicon-code-selected' name="advanced[menu-dashicon-code]" type="hidden" value=<?php echo isset($post_type['advanced']['menu-dashicon-code'])? $post_type['advanced']['menu-dashicon-code'] : '';?> >
+							<input class='dashicon-class-selected' name="advanced[menu-dashicon-class]" type="hidden" value=<?php echo isset($post_type['advanced']['menu-dashicon-class'])? $post_type['advanced']['menu-dashicon-class'] : '';?> >
 							<?php if($_GET['navigation'] == 'add-post-type'): ?>
 								<script type="text/javascript">
 								  	(function($){
@@ -253,7 +259,8 @@
 							            });
 								    })(jQuery);
 								</script>
-							<?php endif; ?>
+							<?php endif; 
+							require_once('dashicons.php'); ?>
 							<div id="custom-icon-upload" style="display:none;">
 								<input id="custom_icon_file" name="advanced[custom_icon_file]" class="custom-data-type" type="text" size="36" 
 									value="<?php if(isset($post_type['advanced']['custom_icon_file'])) echo $post_type['advanced']['custom_icon_file']; ?>" />
@@ -666,9 +673,13 @@
 	(function($){
 		$(document).ready(function(){
 			$('#menu_icon').change(function(){
-				console.log('asdasd');
 				if($(this).val() == 'custom-icon'){
-					$('#custom-icon-upload').css('display', '');
+					$('#custom-icon-upload').show();
+					$('#icons').hide();
+				}
+				else {
+					$('#custom-icon-upload').hide();
+					$('#icons').show();
 				}
 			});
 
