@@ -94,25 +94,22 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				$field = $this->get_custom_fields($value);
 				if( ! empty($field['inputs']) ) {
 					$data_types_path = $this->data_types_path;
-					add_meta_box( 
-			            $field['alias'], 
-			            rf__($field['name']),
-			            function($post) use ($field){
-			            	global $libraries, $content_types_settings, $content_types_admin, $post;
-							$form_builder = $libraries['FormsBuilder'];						
-							$form_settings = json_decode(json_encode($field['inputs']), false);			
-							
-							$content_types_admin->data = $form_builder->get_custom_options_vals($form_settings->settings->alias.'_'.$post->ID);
-							$content_types_admin->elements = $form_settings->elements;
-							$content_types_admin->builder_page = $form_settings;			
+					add_meta_box(
+						$field['alias'], rf__($field['name']), function($post) use ($field) {
+							global $libraries, $content_types_settings, $content_types_admin, $post, $contentTypeMetaBox;
+							$contentTypeMetaBox = true;
+							$form_builder = $libraries['FormsBuilder'];
+							$form_settings = json_decode(json_encode($field['inputs']), false);
 
-	                        $alias = 'formsbuilder_'.$form_settings->settings->alias.'_'.$post->ID;
+							$content_types_admin->data = $form_builder->get_custom_options_vals($form_settings->settings->alias . '_' . $post->ID);
+							$content_types_admin->elements = $form_settings->elements;
+							$content_types_admin->builder_page = $form_settings;
+
+							$alias = 'formsbuilder_' . $form_settings->settings->alias . '_' . $post->ID;
 							$form_builder->render_form($form_settings, false, $content_types_settings, $content_types_admin, $alias);
-			            },
-			            $current_post_type,
-			            'advanced',
-			            'high'
-			        );
+						}, 
+						$current_post_type, 'advanced', 'high'
+					);
 				}
 			}
 		}

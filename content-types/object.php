@@ -61,12 +61,22 @@ class Content_Types_Settings_Object extends Runway_Object {
 
 // Shortcut functions to retrieve meta field data
 if (!function_exists('get_options_meta')) :
-function get_options_meta( $alias = '' ) {
+function get_options_meta( $alias = '', $field_indentifier = null ) {
 	$id = get_the_ID();
-	if (!empty($alias) && !is_null($id)) {
-		$meta_value = get_options_data('formsbuilder_'.get_the_ID(), $alias);
+	if(!empty($alias) && !is_null($id) && $field_indentifier != null) {
+		$meta_value = get_options_data('formsbuilder_'.$field_indentifier.'_'.$id, $alias);
 		if( !empty($meta_value) ) {
 			return $meta_value;	
+		}
+	}
+	else if (!empty($alias) && !is_null($id)) {
+		//$meta_value = get_options_data('formsbuilder_'.get_the_ID(), $alias);
+		$meta_value = get_post_meta($id, $alias);
+		if( !empty($meta_value) ) {
+			if(is_array($meta_value))
+				return $meta_value[0];
+			else
+				return $meta_value;
 		}
 	}
 }
@@ -74,7 +84,7 @@ endif;
 
 // Echo the value
 if (!function_exists('options_meta')) :
-function options_meta( $alias = '' ) {
+function options_meta( $alias = '', $field_indentifier = null ) {
 	echo get_options_meta( $alias );
 }
 endif;
