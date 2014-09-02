@@ -2,6 +2,7 @@
 
 	// Beadcrumbs
 	$navText = array();
+	
 	switch ($this->navigation) {
 		case 'add-post-type':{
 			$navText = array(__( 'Add Post Type', 'framework' ));
@@ -47,7 +48,9 @@
 		} break;
 		
 	}  
-	$this->navigation_bar( $navText );
+	
+	if($this->navigation != '' && $this->navigation != 'taxonomies' && $this->navigation != 'fields')
+		$this->navigation_bar( $navText );
 
 ?>
 <?php if(!in_array($this->navigation, array('add-post-type', 'edit-post-type', 'confirm-delete-post-type', 'add-taxonomy', 'edit-taxonomy', 'confirm-delete-taxonomy', 'add-field', 'edit-field', 'confirm-delete-field', 'add-inputs', 'add-input-field', 'delete-input'))): ?>
