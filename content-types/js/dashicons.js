@@ -3,7 +3,8 @@ jQuery(document).ready(function($) {
 	var code_selected = $('.dashicon-code-selected').val();
 	var class_selected = $('.dashicon-class-selected').val();
 	
-	$('[data-code='+code_selected).addClass('active');
+	if(code_selected != false && code_selected != '' && code_selected != undefined)
+		$('[data-code='+code_selected+']').addClass('active');
 
 	$('#iconlist .dashicons').on('click', function(){
 		var data_code = $(this).attr('data-code');

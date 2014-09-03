@@ -20,7 +20,11 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		add_action( 'save_post', array($this, 'save_postdata') );
 
 		add_action('wp_ajax_get_meta_field_settings', array($this, 'get_meta_field_settings'));
-		add_action('wp_ajax_save_inputs_fields', array($this, 'save_inputs_fields'));		
+		add_action('wp_ajax_save_inputs_fields', array($this, 'save_inputs_fields'));	
+		
+		add_action('wp_ajax_save_custom_icon', array($this, 'save_custom_icon'));
+		
+		add_action('wp_ajax_get_custom_icon', array($this, 'get_custom_icon'));
 
 		add_action('admin_head', array($this, 'set_icon_styles_to_post_type'));
 		
@@ -304,6 +308,48 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		echo json_encode($return);
 		die();
 	}
+	
+	function save_custom_icon() {
+		ini_set('LimitRequestLine', '65535');
+		if(!function_exists('WP_Filesystem'))
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		WP_Filesystem();
+		global $wp_filesystem;
+			
+		
+		if(!is_dir(__DIR__.'/tmp_custom_image')) {
+			$wp_filesystem->mkdir(__DIR__.'/tmp_custom_image');
+		}
+		
+		move_uploaded_file($_FILES["custom_icon"]["tmp_name"], __DIR__.'/tmp_custom_image/' . $_FILES["custom_icon"]["name"]);
+		$file_data = $wp_filesystem->get_contents(__DIR__.'/tmp_custom_image/' . $_FILES["custom_icon"]["name"]);
+		
+		echo "data:".$_FILES["custom_icon"]['type'].";base64,".base64_encode($file_data);
+		die();
+	}
+	
+	function get_custom_icon() {
+		$data = get_option($this->option_key);
+		
+		if(!isset($_REQUEST['content_type']) || (isset($_REQUEST['content_type']) && !isset($data['content_types'][$_REQUEST['content_type']])))
+			die();
+		
+		$imgstr = $data['content_types'][$_REQUEST['content_type']]['advanced']['custom_icon_file'];
+		if($imgstr == '')
+			die();
+		if (!preg_match('/data:([^;]*);base64,(.*)/', $imgstr, $matches)) {
+		    die();
+		}
+
+		$content = base64_decode($matches[2]);
+		
+		header('Content-Type: '.$matches[1]);
+		header('Content-Length: '.strlen($content));
+
+		echo $content;
+		
+		die();
+	}
 
 	public function set_icon_styles_to_post_type(){
 		$post_type = null; $icon = null;
@@ -340,6 +386,16 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
 	function init() {		
 		global $content_types_admin;
+		
+		if(!function_exists('WP_Filesystem'))
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		WP_Filesystem();
+		global $wp_filesystem;
+			
+		
+		if(is_dir(__DIR__.'/tmp_custom_image')) {
+			$wp_filesystem->rmdir(__DIR__.'/tmp_custom_image', true);
+		}
 		
 		if ( isset( $_REQUEST['navigation'] ) && !empty( $_REQUEST['navigation'] ) ) {
 			$content_types_admin->navigation = $_REQUEST['navigation'];

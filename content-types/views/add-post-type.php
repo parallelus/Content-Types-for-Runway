@@ -4,7 +4,12 @@
 	if (!did_action('wp_enqueue_media'))
 		wp_enqueue_media();
 
-	wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'extensions/content-types/css/dashicons.css');
+	global $wp_version;
+	$exploded_version = explode('.', $wp_version);
+	
+	if($exploded_version[0] <= 3 && (isset($exploded_version[1]) && $exploded_version[1] < 8)) {
+		wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'extensions/content-types/css/dashicons.css');
+	}
 	wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'extensions/content-types/css/custom-style.css');
 ?>
 
@@ -262,9 +267,23 @@
 							<?php endif; 
 							require_once('dashicons.php'); ?>
 							<div id="custom-icon-upload" style="display:none;">
-								<input id="custom_icon_file" name="advanced[custom_icon_file]" class="custom-data-type" type="text" size="36" 
-									value="<?php if(isset($post_type['advanced']['custom_icon_file'])) echo $post_type['advanced']['custom_icon_file']; ?>" />
-								<button id="upload_image_button" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
+								
+								<?php 
+								$src = "";
+								if(isset($post_type['advanced']['custom_icon_file']) && $post_type['advanced']['custom_icon_file'] != '') { 
+									$src = $post_type['advanced']['custom_icon_file'];
+								} 
+								?>
+								
+								<img src="<?php echo $src; ?>" id="cusom-icon-image" alt="Custom icon"/>
+								<div id="choose-another-icon" style="display: none;">
+									<a href="#">Choose Another Icon</a>
+								</div>
+								<div id="choose-icon">
+									<input type="file" value="Select file"/>
+								</div>
+								
+								<input type="hidden" name="advanced[custom_icon_file]" value="<?php echo $src; ?>" id="custom_icon_file"/>
 							</div>								
 							<p class="description"></p>
 						</td>
@@ -667,9 +686,7 @@
 <input class="button-primary" type="button" id="save-button" value="<?php _e('Save Settings', 'framework') ?>">
 </form>
 
-<script type="text/javascript">
-	var contentIconFrame;
-	
+<script type="text/javascript">	
 	(function($){
 		$(document).ready(function(){
 			$('#menu_icon').change(function(){
@@ -685,39 +702,44 @@
 
 			if($('#menu_icon').val() == 'custom-icon'){
 				$('#custom-icon-upload').css('display', '');
+				$('#icons').css('display', 'none');
+			}
+			
+			if($('#cusom-icon-image').attr('src') != undefined && $('#cusom-icon-image').attr('src') != '') {
+				$('#choose-another-icon').css('display', '');
+				$('#choose-icon').css('display', 'none');
 			}
 		});
-
-		$("#upload_image_button").click(function(e) {	
-			
+		
+		$('body').on('click', '#choose-another-icon a', function(e){
 			e.preventDefault();
 			e.stopPropagation();
 			
-			if ( contentIconFrame ) {
-				contentIconFrame.open();
-				return;
-			}
+			$('#choose-another-icon').css('display', 'none');
+			$('#choose-icon').css('display', '');
+			$('#cusom-icon-image').css('display', 'none');
+		});
+		$('body').on('change', '#choose-icon input', function(){
 			
-			contentIconFrame = wp.media.frames.contentIconFrame = wp.media({
-				multiple: false
-			});
-
-			contentIconFrame.on( 'select', function() {
-				
-				var attachment = contentIconFrame.state().get('selection').first().toJSON();
-				$('#custom_icon_file').val(attachment.url);
-			});
-			contentIconFrame.open();
+			var data = new FormData();
+			data.append('custom_icon', $(this)[0].files[0]);
+			data.append('action', 'save_custom_icon');
 			
-			/*tb_show("", "media-upload.php?type=image&amp;TB_iframe=true");
-
-			window.send_to_editor = function(html) {
-				imgurl = $("img", html).attr("src");
-				$("#custom_icon_file").val(imgurl);
-				tb_remove();
-			}*/
-
-			return false;
+			$.ajax({
+				url: ajaxurl,
+				type: 'POST',
+				data: data,
+				cache: false,
+				processData: false, 
+				contentType: false, 
+				success: function(data) {
+					$('#choose-another-icon').css('display', '');
+					$('#choose-icon').css('display', 'none');
+					$('#cusom-icon-image').css('display', '');
+					$('#cusom-icon-image').attr('src', data);
+					$('#custom_icon_file').val(data);
+				}
+			});
 		});
 
 		$('#save-button').click(function(e){						
