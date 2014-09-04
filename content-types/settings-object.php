@@ -98,6 +98,11 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				$field = $this->get_custom_fields($value);
 				if( ! empty($field['inputs']) ) {
 					$data_types_path = $this->data_types_path;
+					
+					add_filter('options_data_filter', array($this, 'get_options_data_filter'), 5, 6);
+					//remove default formsbuilder filter
+					remove_filter('options_data_filter', array('FormsBuilder', 'get_options_data_filter'), 20);
+					
 					add_meta_box(
 						$field['alias'], rf__($field['name']), function($post) use ($field) {
 							global $libraries, $content_types_settings, $content_types_admin, $post, $contentTypeMetaBox;
@@ -117,6 +122,17 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				}
 			}
 		}
+	}
+	
+	public function get_options_data_filter($content, $fieldCaption, $field_alias, $title, $alias, $custom_alias) {
+		
+		if ( $custom_alias != null ) {
+			$alias = $custom_alias;
+		}
+		$title = '<span title="get_options_meta(\''.$field_alias.'\')">'. $title .'</span>';
+		$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_meta(\''.$field_alias.'\')</code></span>';
+		
+		return array('title' => $title, 'fieldCaption' => $fieldCaption);
 	}
 
 	public function update_default_content_type($taxonomies = array(), $fields = array(), $type = ''){
