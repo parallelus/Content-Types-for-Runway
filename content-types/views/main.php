@@ -39,18 +39,24 @@
 <?php if( IS_CHILD && get_template() == 'runway-framework') { ?>
 	<form action="<?php echo $this->self_url().'&action=update-post-type-main';?>" id="update-post-type-main" method="post">
 		<div class="meta-box-sortables metabox-holder">
-			<label>
+			<hr>
+			<p>
+				<label>
 				<?php if(!isset($this->content_types_options['hide_in_standalone'])) { ?>
 					<input name="hide_in_standalone" id="hide_in_standalone" type="hidden" value="false">
 					<input name="hide_in_standalone" id="hide_in_standalone" type="checkbox" value="true" checked>
 				<?php } else { ?>
-	                <input name="hide_in_standalone" id="hide_in_standalone" type="hidden" value="false">
-	                <input name="hide_in_standalone" id="hide_in_standalone" type="checkbox" value="true" <?php echo ($this->content_types_options['hide_in_standalone'] == 'true')? 'checked' : ''; ?>>
-	            <?php } ?>
-	            <?php echo __('Hide in Standalone theme', 'framework'); ?>
-	        </label><br><br>
+					<input name="hide_in_standalone" id="hide_in_standalone" type="hidden" value="false">
+					<input name="hide_in_standalone" id="hide_in_standalone" type="checkbox" value="true" <?php echo ($this->content_types_options['hide_in_standalone'] == 'true')? 'checked' : ''; ?>>
+				<?php }
+					_e('Hide the Content Types admin from standalone themes?', 'framework'); ?>
+				</label>
+	        </p>
+	        <p class="description"><?php _e('Hidden from standalone themes by default. Only the admin interface is hidden. All content and settings created in this area will continue to function.', 'framework'); ?></p>
+			<hr>
+	        <br>
 		</div>
-		<input class="button-primary" type="button" id="save-button" value="<?php _e('Save', 'framework') ?>">
+		<input class="button-primary" type="button" id="save-button" value="<?php _e('Save Settings', 'framework') ?>">
 	</form>
 <?php } ?>
 

@@ -1,19 +1,12 @@
 <?php
 /*
-    Extension Name: Content types
+    Extension Name: Content Types
     Extension URI: https://github.com/parallelus/Content-Types-for-Runway
-    Version: 0.8.3
-    Description: Content types
+    Version: 0.8.4
+    Description: Create Custom Post Types, Taxonomies and Meta Fields in WordPress themes.
     Author: Parallelus
     Author URI: http://runwaywp.com
-    Text Domain:
-    Domain Path:
-    Network:
-    Site Wide Only:
 */
-
-// Reset
-if (0) update_option('content_types', array());
 
 // Settings
 $fields = array(
@@ -37,11 +30,14 @@ $settings = array(
 		'wp-color-picker',
 		'formsbuilder',
 		'ace',
+		'rw_nouislider',
 		FRAMEWORK_URL.'framework/js/jquery.tmpl.min.js',
 		FRAMEWORK_URL.'extensions/content-types/js/fields.js',
+		FRAMEWORK_URL.'extensions/content-types/js/dashicons.js',
 	),
 	'css' => array(
 		'formsbuilder-style',
+		'rw_nouislider_css'
 	)
 );
 

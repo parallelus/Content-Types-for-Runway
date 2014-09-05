@@ -1,0 +1,9 @@
+
+
+body.wp-admin .postbox-container .container-title {
+	display: none;
+}
+
+body.wp-admin .postbox-container .customize-control-title {
+	display: none;
+}

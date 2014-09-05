@@ -1,5 +1,16 @@
 <?php
 	global $content_types_settings, $wp_roles;
+
+	if (!did_action('wp_enqueue_media'))
+		wp_enqueue_media();
+
+	global $wp_version;
+	$exploded_version = explode('.', $wp_version);
+	
+	if($exploded_version[0] <= 3 && (isset($exploded_version[1]) && $exploded_version[1] < 8)) {
+		wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'extensions/content-types/css/dashicons.css');
+	}
+	wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'extensions/content-types/css/custom-style.css');
 ?>
 
 <form action="<?php echo $this->self_url(); ?>&action=update-post-type<?php echo isset($post_type) ? '&alias='.$post_type['alias'] : ''; ?>" id="add-edit-contenttype" method="post">
@@ -23,7 +34,7 @@
 				<p class="description required"><?php echo __('Required', 'framework'); ?></p>
 			</th>
 			<td>
-				<input class="input-text" id="contenttype_singuldar_name" type="text" name="labels[singular_name]" value="<?php echo (isset($post_type)) ? $post_type['labels']['singular_name'] : ''; ?>">
+				<input class="input-text" id="contenttype_singular_name" type="text" name="labels[singular_name]" value="<?php echo (isset($post_type)) ? $post_type['labels']['singular_name'] : ''; ?>">
 				<p class="description"><?php echo __('Name for a single item. e.g. Product, Event or Movie', 'framework'); ?></p>
 			</td>
 		</tr>
@@ -61,7 +72,7 @@
 <!-- DEFAULT LABELS SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span> <?php echo __('Default labels', 'framework'); ?></span></h3>
 		<div class="inside" style="display:none;">
 			<table class="form-table">
@@ -155,7 +166,7 @@
 <!-- ADVANCED SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span><?php echo __('Advanced', 'framework'); ?></span></h3>
 		<div class="inside" style="display:none;">
 			<table class="form-table">
@@ -230,7 +241,8 @@
 						<td>
 							<select name="advanced[menu_icon]" id="menu_icon">
 								<!--<option value="menu-icon-dashboard" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-dashboard') ? 'selected="true"' : ''; ?>>Dashboard icon</option>-->
-								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-post') ? 'selected="true"' : ''; ?>><?php echo __('Posts icon', 'framework'); ?></option>
+								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-wp') ? 'selected="true"' : ''; ?>><?php echo __('Default WordPress icon', 'framework'); ?></option>
+<!-- 								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-post') ? 'selected="true"' : ''; ?>><?php echo __('Posts icon', 'framework'); ?></option>
 								<option value="menu-icon-media" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-media') ? 'selected="true"' : ''; ?>><?php echo __('Media icon', 'framework'); ?></option>
 								<option value="menu-icon-links" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-links') ? 'selected="true"' : ''; ?>><?php echo __('Links icon', 'framework'); ?></option>
 								<option value="menu-icon-page" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-page') ? 'selected="true"' : '';?>><?php echo __('Page icon', 'framework'); ?></option>
@@ -240,8 +252,10 @@
 								<option value="menu-icon-users" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-users') ? 'selected="true"' : ''; ?>><?php echo __('Users icon', 'framework'); ?></option>
 								<option value="menu-icon-tools" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-tools') ? 'selected="true"' : ''; ?>><?php echo __('Tools icon', 'framework'); ?></option>
 								<option value="menu-icon-settings" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-settings') ? 'selected="true"' : ''; ?>><?php echo __('Settings icon', 'framework'); ?></option>
-								<option value="custom-icon" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'custom-icon') ? 'selected="true"' : ''; ?>><?php echo __('Custom icon', 'framework'); ?></option>
-							</select>							
+ -->								<option value="custom-icon" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'custom-icon') ? 'selected="true"' : ''; ?>><?php echo __('Custom icon', 'framework'); ?></option>
+							</select>
+							<input class='dashicon-code-selected' name="advanced[menu-dashicon-code]" type="hidden" value=<?php echo isset($post_type['advanced']['menu-dashicon-code'])? $post_type['advanced']['menu-dashicon-code'] : '';?> >
+							<input class='dashicon-class-selected' name="advanced[menu-dashicon-class]" type="hidden" value=<?php echo isset($post_type['advanced']['menu-dashicon-class'])? $post_type['advanced']['menu-dashicon-class'] : '';?> >
 							<?php if($_GET['navigation'] == 'add-post-type'): ?>
 								<script type="text/javascript">
 								  	(function($){
@@ -250,11 +264,26 @@
 							            });
 								    })(jQuery);
 								</script>
-							<?php endif; ?>
+							<?php endif; 
+							require_once('dashicons.php'); ?>
 							<div id="custom-icon-upload" style="display:none;">
-								<input id="custom_icon_file" name="advanced[custom_icon_file]" class="custom-data-type" type="text" size="36" 
-									value="<?php if(isset($post_type['advanced']['custom_icon_file'])) echo $post_type['advanced']['custom_icon_file']; ?>" />
-								<button id="upload_image_button" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
+								
+								<?php 
+								$src = "";
+								if(isset($post_type['advanced']['custom_icon_file']) && $post_type['advanced']['custom_icon_file'] != '') { 
+									$src = $post_type['advanced']['custom_icon_file'];
+								} 
+								?>
+								
+								<img src="<?php echo $src; ?>" id="cusom-icon-image" alt="Custom icon"/>
+								<div id="choose-another-icon" style="display: none;">
+									<a href="#">Choose Another Icon</a>
+								</div>
+								<div id="choose-icon">
+									<input type="file" value="Select file"/>
+								</div>
+								
+								<input type="hidden" name="advanced[custom_icon_file]" value="<?php echo $src; ?>" id="custom_icon_file"/>
 							</div>								
 							<p class="description"></p>
 						</td>
@@ -487,7 +516,7 @@
 												<?php echo __('Include URL Slug with Items', 'framework'); ?>
 												<br />
 												<input class="checkbox" type="checkbox" id="rewrite_with_front" name="advanced[rewrite][with_front]" value="true" <?php echo isset($post_type['advanced']['rewrite']['with_front']) || $_GET['navigation'] == 'add-post-type' ? 'checked' : ''; ?>> <?php echo __('Yes', 'framework'); ?>
-												<p class="description"><?php echo __('Include permalink base in single item URL. i.e. Enabled: www.example.com/event/post, Disabled: www.example.com/post', 'framework'); ?></p>
+												<p class="description"><?php echo __('Include permalink base in single item URL. The base will use the value of "Name (Singular)" i.e. Enabled: www.example.com/calendar/event/, Disabled: www.example.com/event', 'framework'); ?></p>
 											</td>				
 										</tr>
 										<tr class="">
@@ -612,7 +641,7 @@
 <!-- ASSIGNED TAXONOMIES SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span><?php echo __('Assigned taxonomies', 'framework'); ?></span></h3>
 		<div class="inside">
 			<?php 
@@ -633,7 +662,7 @@
 <!-- ASSIGNED FIELDS SETTINGS BOX -->
 <div class="meta-box-sortables metabox-holder">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div>
+		<div class="handlediv" title="<?php echo __('Click to toggle', 'framework'); ?>"><br></div>
 		<h3 class="hndle"><span><?php echo __('Assigned fields', 'framework'); ?></span></h3>
 		<div class="inside" >
 			<?php 
@@ -657,36 +686,65 @@
 <input class="button-primary" type="button" id="save-button" value="<?php _e('Save Settings', 'framework') ?>">
 </form>
 
-<script type="text/javascript">
+<script type="text/javascript">	
 	(function($){
 		$(document).ready(function(){
 			$('#menu_icon').change(function(){
-				console.log('asdasd');
 				if($(this).val() == 'custom-icon'){
-					$('#custom-icon-upload').css('display', '');
+					$('#custom-icon-upload').show();
+					$('#icons').hide();
+				}
+				else {
+					$('#custom-icon-upload').hide();
+					$('#icons').show();
 				}
 			});
 
 			if($('#menu_icon').val() == 'custom-icon'){
 				$('#custom-icon-upload').css('display', '');
+				$('#icons').css('display', 'none');
+			}
+			
+			if($('#cusom-icon-image').attr('src') != undefined && $('#cusom-icon-image').attr('src') != '') {
+				$('#choose-another-icon').css('display', '');
+				$('#choose-icon').css('display', 'none');
 			}
 		});
-
-		$("#upload_image_button").click(function() {					
-			tb_show("", "media-upload.php?type=image&amp;TB_iframe=true");
-
-			window.send_to_editor = function(html) {
-				imgurl = $("img", html).attr("src");
-				$("#custom_icon_file").val(imgurl);
-				tb_remove();
-			}
-
-			return false;
+		
+		$('body').on('click', '#choose-another-icon a', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			
+			$('#choose-another-icon').css('display', 'none');
+			$('#choose-icon').css('display', '');
+			$('#cusom-icon-image').css('display', 'none');
+		});
+		$('body').on('change', '#choose-icon input', function(){
+			
+			var data = new FormData();
+			data.append('custom_icon', $(this)[0].files[0]);
+			data.append('action', 'save_custom_icon');
+			
+			$.ajax({
+				url: ajaxurl,
+				type: 'POST',
+				data: data,
+				cache: false,
+				processData: false, 
+				contentType: false, 
+				success: function(data) {
+					$('#choose-another-icon').css('display', '');
+					$('#choose-icon').css('display', 'none');
+					$('#cusom-icon-image').css('display', '');
+					$('#cusom-icon-image').attr('src', data);
+					$('#custom_icon_file').val(data);
+				}
+			});
 		});
 
 		$('#save-button').click(function(e){						
 			var contenttype_name = $('#contenttype_name').val().trim();
-			var contenttype_singuldar_name = $('#contenttype_singuldar_name').val().trim();
+			var contenttype_singular_name = $('#contenttype_singular_name').val().trim();
 			var contenttype_menu_name = $('#contenttype_menu_name').val().trim();
 			var contenttype_parent_item_colon = $('#contenttype_parent_item_colon').val().trim();
 			
@@ -697,11 +755,11 @@
 				$('#contenttype_name').css('border-color', '');	
 			}
 
-			if(contenttype_singuldar_name == ''){
-				$('#contenttype_singuldar_name').css('border-color', 'Red');
+			if(contenttype_singular_name == ''){
+				$('#contenttype_singular_name').css('border-color', 'Red');
 			}
 			else{
-				$('#contenttype_singuldar_name').css('border-color', '');	
+				$('#contenttype_singular_name').css('border-color', '');	
 			}
 
 			if(contenttype_menu_name == ''){
@@ -718,7 +776,7 @@
 				$('#contenttype_parent_item_colon').css('border-color', '');	
 			}
 			
-			if( contenttype_name &&	contenttype_singuldar_name && contenttype_menu_name && 	contenttype_parent_item_colon){
+			if( contenttype_name &&	contenttype_singular_name && contenttype_menu_name && 	contenttype_parent_item_colon){
 				$('#add-edit-contenttype').submit();
 			}
 		});
