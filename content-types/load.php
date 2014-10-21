@@ -33,7 +33,7 @@ $settings = array(
 		'rw_nouislider',
 		FRAMEWORK_URL.'framework/js/jquery.tmpl.min.js',
 		FRAMEWORK_URL.'extensions/content-types/js/fields.js',
-		FRAMEWORK_URL.'extensions/content-types/js/dashicons.js',
+		FRAMEWORK_URL.'framework/includes/themes-manager/js/dashicons.js',
 	),
 	'css' => array(
 		'formsbuilder-style',

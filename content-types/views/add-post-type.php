@@ -8,9 +8,9 @@
 	$exploded_version = explode('.', $wp_version);
 	
 	if($exploded_version[0] <= 3 && (isset($exploded_version[1]) && $exploded_version[1] < 8)) {
-		wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'extensions/content-types/css/dashicons.css');
+		wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/dashicons.css');
 	}
-	wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'extensions/content-types/css/custom-style.css');
+	wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/custom-style.css');
 ?>
 
 <form action="<?php echo $this->self_url(); ?>&action=update-post-type<?php echo isset($post_type) ? '&alias='.$post_type['alias'] : ''; ?>" id="add-edit-contenttype" method="post">
@@ -265,7 +265,8 @@
 								    })(jQuery);
 								</script>
 							<?php endif; 
-							require_once('dashicons.php'); ?>
+							require_once(get_template_directory().'/framework/templates/dashicons.php'); 
+							?>
 							<div id="custom-icon-upload" style="display:none;">
 								
 								<?php 
