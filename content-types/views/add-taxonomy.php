@@ -48,7 +48,7 @@
 				<p class="description required"><?php echo __('Required', 'framework'); ?></p>							
 			</th>
 			<td>
-				<input class="input-text default-label" type="text" id="all_items" name="labels[all_items]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['all_items'] : 'All Taxonomies'; ?>">
+				<input class="input-text default-label" type="text" id="all_items" name="labels[all_items]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['all_items'] : __('All Taxonomies', 'framework'); ?>">
 				<p class="description"><?php echo __('The all items text used in the menu', 'framework'); ?></p>
 			</td>
 		</tr>
@@ -58,7 +58,7 @@
 				<p class="description required"><?php echo __('Required', 'framework'); ?></p>						
 			</th>
 			<td>
-				<input class="input-text " type="text" id="add_new_item" name="labels[add_new_item]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['add_new_item'] : 'Add new taxonomy'; ?>">
+				<input class="input-text " type="text" id="add_new_item" name="labels[add_new_item]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['add_new_item'] : __('Add new taxonomy', 'framework'); ?>">
 				<p class="description"><?php echo __('The add new item text', 'framework'); ?></p>
 			</td>
 		</tr>
@@ -68,7 +68,7 @@
 				<p class="description required"><?php echo __('Required', 'framework'); ?></p>						
 			</th>
 			<td>
-				<input class="input-text default-label" id="edit_item" type="text" name="labels[edit_item]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['edit_item'] : 'Edit taxonomy'; ?>">
+				<input class="input-text default-label" id="edit_item" type="text" name="labels[edit_item]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['edit_item'] : __('Edit taxonomy', 'framework'); ?>">
 				<p class="description"><?php echo __('The edit item text', 'framework'); ?></p>
 			</td>
 		</tr>
@@ -78,7 +78,7 @@
 				<p class="description required"><?php echo __('Required', 'framework'); ?></p>						
 			</th>
 			<td>
-				<input class="input-text default-label" id="update_item" type="text" name="labels[update_item]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['update_item'] : 'Update taxonomy'; ?>">
+				<input class="input-text default-label" id="update_item" type="text" name="labels[update_item]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['update_item'] : __('Update taxonomy', 'framework'); ?>">
 				<p class="description"><?php echo __('The update item text', 'framework'); ?></p>
 			</td>
 		</tr>
@@ -88,7 +88,7 @@
 				<p class="description required"><?php echo __('Required', 'framework'); ?></p>							
 			</th>
 			<td>
-				<input class="input-text default-label" id="search_items" type="text" name="labels[search_items]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['search_items'] : 'Search'; ?>">
+				<input class="input-text default-label" id="search_items" type="text" name="labels[search_items]" value="<?php echo (isset($taxonomy)) ? $taxonomy['labels']['search_items'] : __('Search', 'framework'); ?>">
 				<p class="description"><?php echo __('The search items text', 'framework'); ?></p>
 			</td>
 		</tr>

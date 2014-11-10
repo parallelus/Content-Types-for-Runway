@@ -23,7 +23,6 @@ class Content_Types_Settings_Object extends Runway_Object {
 				$menu_icon = $values['advanced']['menu-dashicon-class'];
 			}
 			elseif(isset($values['advanced']['menu_icon']) && $values['advanced']['menu_icon'] != '' && $values['advanced']['menu_icon'] == 'custom-icon'){
-				//$menu_icon = $values['advanced']['custom_icon_file'];
 				$menu_icon = admin_url( 'admin-ajax.php' )."?action=get_custom_icon&content_type=".$content_type;
 			}
 
