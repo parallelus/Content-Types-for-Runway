@@ -348,7 +348,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
         if($image->supports_mime_type($_FILES["custom_icon"]['type']) && !is_wp_error($image)){
 
-            $image->resize(20, 20);
+            $image->resize(16, 16);
             $image->save($localFile);
 
         }

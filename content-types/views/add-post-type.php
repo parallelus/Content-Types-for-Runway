@@ -240,7 +240,16 @@
 						</th>
 						<td>
 							<select name="advanced[menu_icon]" id="menu_icon">
-								<option value="menu-icon-post" <?php if(isset($post_type)) echo (isset( $post_type['advanced']['menu_icon']) && $post_type['advanced']['menu_icon'] == 'menu-icon-wp') ? 'selected="true"' : ''; ?>><?php echo __('Default WordPress icon', 'framework'); ?></option>
+                                <option value="menu-icon-post"
+                                    <?php
+                                    if(isset($post_type)){
+                                        echo (isset( $post_type['advanced']['menu_icon']) && $post_type['advanced']['menu_icon'] == 'menu-icon-wp') ? 'selected="true"' : '';
+                                    }else{
+                                        echo '"selected"';
+                                    }
+                                    ?>>
+                                    <?php echo __('Default WordPress icon', 'framework'); ?>
+                                </option>
 								<option value="custom-icon" <?php if(isset($post_type)) echo (isset( $post_type['advanced']['menu_icon']) && $post_type['advanced']['menu_icon'] == 'custom-icon') ? 'selected="true"' : ''; ?>><?php echo __('Custom icon', 'framework'); ?></option>
 							</select>
 							<input class='dashicon-code-selected' name="advanced[menu-dashicon-code]" type="hidden" value=<?php echo isset($post_type['advanced']['menu-dashicon-code'])? $post_type['advanced']['menu-dashicon-code'] : '';?> >
@@ -249,7 +258,7 @@
 								<script type="text/javascript">
 								  	(function($){
         								$(document).ready(function() {
-									        $("#menu_icon").val('menu-icon-page').attr('selected',true);
+//									        $("#menu_icon").val('menu-icon-page').attr('selected',true);
 							            });
 								    })(jQuery);
 								</script>
@@ -677,37 +686,41 @@
 </form>
 
 <script type="text/javascript">	
-	(function($){
-		$(document).ready(function(){
-			$('#menu_icon').change(function(){
-				if($(this).val() == 'custom-icon'){
-					$('#custom-icon-upload').show();
-					$('#icons').hide();
-				}
-				else {
-					$('#custom-icon-upload').hide();
-					$('#icons').show();
-				}
-			});
+    jQuery(document).ready(function($){
 
-			if($('#menu_icon').val() == 'custom-icon'){
-				$('#custom-icon-upload').css('display', '');
-				$('#icons').css('display', 'none');
-			}
-			
-			if($('#cusom-icon-image').attr('src') != undefined && $('#cusom-icon-image').attr('src') != '') {
+        var customIconImage = $('#cusom-icon-image');
+
+        $('#menu_icon').change(function(){
+            if($(this).val() == 'custom-icon'){
+                $('#custom-icon-upload').show();
+                $('#icons').hide();
+            }
+            else {
+                $('#custom-icon-upload').hide();
+                $('#icons').show();
+            }
+        });
+
+        if($('#menu_icon').val() == 'custom-icon'){
+            $('#custom-icon-upload').css('display', '');
+            $('#icons').hide();
+        }
+
+        if(customIconImage.attr('src') != undefined && customIconImage.attr('src') != '') {
 				$('#choose-another-icon').css('display', '');
-				$('#choose-icon').css('display', 'none');
-			}
-		});
-		
+				$('#choose-icon').hide();
+        }else{
+            customIconImage.hide();
+        }
+
 		$('body').on('click', '#choose-another-icon a', function(e){
 			e.preventDefault();
 			e.stopPropagation();
 			
-			$('#choose-another-icon').css('display', 'none');
+			$('#choose-another-icon').hide();
 			$('#choose-icon').css('display', '');
-			$('#cusom-icon-image').css('display', 'none');
+			$('#choose-icon input').val('');
+            customIconImage.hide();
 		});
 		$('body').on('change', '#choose-icon input', function(){
 			
@@ -724,9 +737,9 @@
 				contentType: false, 
 				success: function(data) {
 					$('#choose-another-icon').css('display', '');
-					$('#choose-icon').css('display', 'none');
-					$('#cusom-icon-image').css('display', '');
-					$('#cusom-icon-image').attr('src', data);
+					$('#choose-icon').hide();
+                    customIconImage.attr('src', data);
+                    customIconImage.css('display', '');
 					$('#custom_icon_file').val(data);
 				}
 			});
