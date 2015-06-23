@@ -15,6 +15,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		// add actions
 		//add_action( 'init', array($this, 'register_custom_content_type'));
 		add_action( 'add_meta_boxes', array( $this, 'add_some_meta_box' ) );
+		add_action( 'load_conditional_script', array( $this, 'load_conditional_script_func' ), 10, 1 );
 
 		/* Do something with the data entered */
 		add_action( 'save_post', array($this, 'save_postdata') );
@@ -94,6 +95,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function add_meta_box($content_type = array(), $current_post_type = 'post'){
+		do_action('load_conditional_script', $content_type);
 		if(!empty($content_type) && !empty($content_type['fields'])){
 			foreach ($content_type['fields'] as $key => $value) {
 				$field = $this->get_custom_fields($value);
@@ -463,6 +465,12 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 					die();
 				} break;
 			}
+		}
+	}
+
+	function load_conditional_script_func($content_type = array()){
+		if( isset($content_type['fields']) && count($content_type['fields']) ) {
+			wp_enqueue_script('condition-script', FRAMEWORK_URL.'framework/includes/options-page-render/js/condition-script.js');
 		}
 	}
 
