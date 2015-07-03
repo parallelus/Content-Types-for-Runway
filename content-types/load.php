@@ -2,7 +2,7 @@
 /*
     Extension Name: Content Types
     Extension URI: https://github.com/parallelus/Content-Types-for-Runway
-    Version: 0.8.4
+    Version: 0.8.5
     Description: Create Custom Post Types, Taxonomies and Meta Fields in WordPress themes.
     Author: Parallelus
     Author URI: http://runwaywp.com
