@@ -2,7 +2,7 @@
 /*
     Extension Name: Content Types
     Extension URI: https://github.com/parallelus/Content-Types-for-Runway
-    Version: 0.8.4
+    Version: 0.8.5
     Description: Create Custom Post Types, Taxonomies and Meta Fields in WordPress themes.
     Author: Parallelus
     Author URI: http://runwaywp.com
@@ -33,7 +33,7 @@ $settings = array(
 		'rw_nouislider',
 		FRAMEWORK_URL.'framework/js/jquery.tmpl.min.js',
 		FRAMEWORK_URL.'extensions/content-types/js/fields.js',
-		FRAMEWORK_URL.'extensions/content-types/js/dashicons.js',
+		FRAMEWORK_URL.'framework/includes/themes-manager/js/dashicons.js',
 	),
 	'css' => array(
 		'formsbuilder-style',

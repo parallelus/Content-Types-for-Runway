@@ -8,9 +8,9 @@
 	$exploded_version = explode('.', $wp_version);
 	
 	if($exploded_version[0] <= 3 && (isset($exploded_version[1]) && $exploded_version[1] < 8)) {
-		wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'extensions/content-types/css/dashicons.css');
+		wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/dashicons.css');
 	}
-	wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'extensions/content-types/css/custom-style.css');
+	wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/custom-style.css');
 ?>
 
 <form action="<?php echo $this->self_url(); ?>&action=update-post-type<?php echo isset($post_type) ? '&alias='.$post_type['alias'] : ''; ?>" id="add-edit-contenttype" method="post">
@@ -82,7 +82,7 @@
 							<?php echo __('All Items', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text default-label" type="text" name="labels[all_items]" value="<?php echo (isset($post_type)) ? $post_type['labels']['all_items'] : 'All Posts'; ?>">
+							<input class="input-text default-label" type="text" name="labels[all_items]" value="<?php echo (isset($post_type)) ? $post_type['labels']['all_items'] : __('All Posts', 'framework'); ?>">
 							<p class="description"><?php echo __('Admin menu linking to list screen. e.g. All Products, All Events or All Movies', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -91,7 +91,7 @@
 							<?php echo __('View Item', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text default-label" type="text" name="labels[view_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['view_item'] : 'View post'; ?>">
+							<input class="input-text default-label" type="text" name="labels[view_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['view_item'] : __('View post', 'framework'); ?>">
 							<p class="description"><?php echo __('A link to see the item from the edit screen. e.g. View Product, View Event or View Movie', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -100,7 +100,7 @@
 							<?php echo __('Add New Item', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text " type="text" name="labels[add_new_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['add_new_item'] : 'Add new post'; ?>">
+							<input class="input-text " type="text" name="labels[add_new_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['add_new_item'] : __('Add new post', 'framework'); ?>">
 							<p class="description"><?php echo __('e.g. Add New Product, Add New Event or Add New Movie', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -109,7 +109,7 @@
 							<?php echo __('Add New', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text default-label" type="text" name="labels[add_new]" value="<?php echo (isset($post_type)) ? $post_type['labels']['add_new'] : 'Add new post'; ?>">
+							<input class="input-text default-label" type="text" name="labels[add_new]" value="<?php echo (isset($post_type)) ? $post_type['labels']['add_new'] : __('Add new post', 'framework'); ?>">
 							<p class="description"><?php echo __('e.g. Add New, New Product, New Event or New Movie', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -118,7 +118,7 @@
 							<?php echo __('Edit Item', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text default-label" type="text" name="labels[edit_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['edit_item'] : 'Edit post'; ?>">
+							<input class="input-text default-label" type="text" name="labels[edit_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['edit_item'] : __('Edit post', 'framework'); ?>">
 							<p class="description"><?php echo __('e.g. Edit Product, Edit Event or Edit Movie', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -127,7 +127,7 @@
 							<?php echo __('Update Item', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text default-label" type="text" name="labels[update_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['update_item'] : 'Update post'; ?>">
+							<input class="input-text default-label" type="text" name="labels[update_item]" value="<?php echo (isset($post_type)) ? $post_type['labels']['update_item'] : __('Update post', 'framework'); ?>">
 							<p class="description"><?php echo __('e.g. Update Product, Update Event or Update Movie', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -136,7 +136,7 @@
 							<?php echo __('Search Items', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text default-label" type="text" name="labels[search_items]" value="<?php echo (isset($post_type)) ? $post_type['labels']['search_items'] : 'Search'; ?>">
+							<input class="input-text default-label" type="text" name="labels[search_items]" value="<?php echo (isset($post_type)) ? $post_type['labels']['search_items'] : __('Search', 'framework'); ?>">
 							<p class="description"><?php echo __('e.g. Search, Search products or Search event', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -145,7 +145,7 @@
 							<?php echo __('Not Found', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text " type="text" name="labels[not_found]" value="<?php echo (isset($post_type)) ? $post_type['labels']['not_found'] : 'Not found'; ?>">
+							<input class="input-text " type="text" name="labels[not_found]" value="<?php echo (isset($post_type)) ? $post_type['labels']['not_found'] : __('Not found', 'framework'); ?>">
 							<p class="description"><?php echo __('e.g. Nothing found, No products found or No events found', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -154,7 +154,7 @@
 							<?php echo __('Not Found in Trash', 'framework'); ?>
 						</th>
 						<td>
-							<input class="input-text " type="text" name="labels[not_found_in_trash]" value="<?php echo (isset($post_type)) ? $post_type['labels']['not_found_in_trash'] : 'Not found in trash'; ?>">
+							<input class="input-text " type="text" name="labels[not_found_in_trash]" value="<?php echo (isset($post_type)) ? $post_type['labels']['not_found_in_trash'] : __('Not found in trash', 'framework'); ?>">
 							<p class="description"><?php echo __('e.g. Nothing found in Trash, No products found in Trash or No events found in Trash', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -240,19 +240,17 @@
 						</th>
 						<td>
 							<select name="advanced[menu_icon]" id="menu_icon">
-								<!--<option value="menu-icon-dashboard" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-dashboard') ? 'selected="true"' : ''; ?>>Dashboard icon</option>-->
-								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-wp') ? 'selected="true"' : ''; ?>><?php echo __('Default WordPress icon', 'framework'); ?></option>
-<!-- 								<option value="menu-icon-post" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-post') ? 'selected="true"' : ''; ?>><?php echo __('Posts icon', 'framework'); ?></option>
-								<option value="menu-icon-media" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-media') ? 'selected="true"' : ''; ?>><?php echo __('Media icon', 'framework'); ?></option>
-								<option value="menu-icon-links" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-links') ? 'selected="true"' : ''; ?>><?php echo __('Links icon', 'framework'); ?></option>
-								<option value="menu-icon-page" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-page') ? 'selected="true"' : '';?>><?php echo __('Page icon', 'framework'); ?></option>
-								<option value="menu-icon-comments" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-comments') ? 'selected="true"' : ''; ?>><?php echo __('Comments icon', 'framework'); ?></option>
-								<option value="menu-icon-appearance" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-appearance') ? 'selected="true"' : ''; ?>><?php echo __('Appearance icon', 'framework'); ?></option>
-								<option value="menu-icon-plugins" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-plugins') ? 'selected="true"' : ''; ?>><?php echo __('Plugins icon', 'framework'); ?></option>
-								<option value="menu-icon-users" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-users') ? 'selected="true"' : ''; ?>><?php echo __('Users icon', 'framework'); ?></option>
-								<option value="menu-icon-tools" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-tools') ? 'selected="true"' : ''; ?>><?php echo __('Tools icon', 'framework'); ?></option>
-								<option value="menu-icon-settings" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'menu-icon-settings') ? 'selected="true"' : ''; ?>><?php echo __('Settings icon', 'framework'); ?></option>
- -->								<option value="custom-icon" <?php if(isset($post_type)) echo ($post_type['advanced']['menu_icon'] == 'custom-icon') ? 'selected="true"' : ''; ?>><?php echo __('Custom icon', 'framework'); ?></option>
+                                <option value="menu-icon-post"
+                                    <?php
+                                    if(isset($post_type)){
+                                        echo (isset( $post_type['advanced']['menu_icon']) && $post_type['advanced']['menu_icon'] == 'menu-icon-wp') ? 'selected="true"' : '';
+                                    }else{
+                                        echo '"selected"';
+                                    }
+                                    ?>>
+                                    <?php echo __('Default WordPress icon', 'framework'); ?>
+                                </option>
+								<option value="custom-icon" <?php if(isset($post_type)) echo (isset( $post_type['advanced']['menu_icon']) && $post_type['advanced']['menu_icon'] == 'custom-icon') ? 'selected="true"' : ''; ?>><?php echo __('Custom icon', 'framework'); ?></option>
 							</select>
 							<input class='dashicon-code-selected' name="advanced[menu-dashicon-code]" type="hidden" value=<?php echo isset($post_type['advanced']['menu-dashicon-code'])? $post_type['advanced']['menu-dashicon-code'] : '';?> >
 							<input class='dashicon-class-selected' name="advanced[menu-dashicon-class]" type="hidden" value=<?php echo isset($post_type['advanced']['menu-dashicon-class'])? $post_type['advanced']['menu-dashicon-class'] : '';?> >
@@ -260,12 +258,13 @@
 								<script type="text/javascript">
 								  	(function($){
         								$(document).ready(function() {
-									        $("#menu_icon").val('menu-icon-page').attr('selected',true);
+//									        $("#menu_icon").val('menu-icon-page').attr('selected',true);
 							            });
 								    })(jQuery);
 								</script>
 							<?php endif; 
-							require_once('dashicons.php'); ?>
+							require_once(get_template_directory().'/framework/templates/dashicons.php'); 
+							?>
 							<div id="custom-icon-upload" style="display:none;">
 								
 								<?php 
@@ -275,9 +274,9 @@
 								} 
 								?>
 								
-								<img src="<?php echo $src; ?>" id="cusom-icon-image" alt="Custom icon"/>
+								<img src="<?php echo $src; ?>" id="cusom-icon-image" alt="<?php echo __('Custom icon', 'framework'); ?>"/>
 								<div id="choose-another-icon" style="display: none;">
-									<a href="#">Choose Another Icon</a>
+									<a href="#"><?php echo __('Choose Another Icon', 'framework'); ?></a>
 								</div>
 								<div id="choose-icon">
 									<input type="file" value="Select file"/>
@@ -371,13 +370,13 @@
 								<table class="form-table">
 									<tbody>		
 										<?php
-										$caps_list = array( 'read_posts' => 'Read',
-													'read_private_posts' => 'Read Private',
-													'publish_posts' => 'Publish',
-													'delete_post' => 'Delete',
-													'edit_post' => 'Edit',
-													'edit_posts' => 'Edit Posts',
-													'edit_others_posts' => 'Edit Others Posts'
+										$caps_list = array( 'read_posts' => __('Read', 'framework'),
+													'read_private_posts' => __('Read Private', 'framework'),
+													'publish_posts' => __('Publish', 'framework'),
+													'delete_post' => __('Delete', 'framework'),
+													'edit_post' => __('Edit', 'framework'),
+													'edit_posts' => __('Edit Posts', 'framework'),
+													'edit_others_posts' => __('Edit Others Posts', 'framework')
 										);
 										foreach($caps_list as $caps_list_key => $caps_list_val): ?>
 											<tr class="">
@@ -628,7 +627,7 @@
 							<?php echo __('Enable Export', 'framework'); ?>
 						</th>
 						<td>
-							<input class="checkbox" type="checkbox" name="advanced[can_export]" value="true" <?php echo isset($post_type['advanced']['can_export']) || $_GET['navigation'] == 'add-post-type' ? 'checked' : ''; ?>> Yes
+							<input class="checkbox" type="checkbox" name="advanced[can_export]" value="true" <?php echo isset($post_type['advanced']['can_export']) || $_GET['navigation'] == 'add-post-type' ? 'checked' : ''; ?>> <?php echo __('Yes', 'framework'); ?>
 							<p class="description"><?php echo __('Enable exporting with the WP import/export tool', 'framework'); ?></p>
 						</td>
 					</tr>
@@ -687,37 +686,41 @@
 </form>
 
 <script type="text/javascript">	
-	(function($){
-		$(document).ready(function(){
-			$('#menu_icon').change(function(){
-				if($(this).val() == 'custom-icon'){
-					$('#custom-icon-upload').show();
-					$('#icons').hide();
-				}
-				else {
-					$('#custom-icon-upload').hide();
-					$('#icons').show();
-				}
-			});
+    jQuery(document).ready(function($){
 
-			if($('#menu_icon').val() == 'custom-icon'){
-				$('#custom-icon-upload').css('display', '');
-				$('#icons').css('display', 'none');
-			}
-			
-			if($('#cusom-icon-image').attr('src') != undefined && $('#cusom-icon-image').attr('src') != '') {
+        var customIconImage = $('#cusom-icon-image');
+
+        $('#menu_icon').change(function(){
+            if($(this).val() == 'custom-icon'){
+                $('#custom-icon-upload').show();
+                $('#icons').hide();
+            }
+            else {
+                $('#custom-icon-upload').hide();
+                $('#icons').show();
+            }
+        });
+
+        if($('#menu_icon').val() == 'custom-icon'){
+            $('#custom-icon-upload').css('display', '');
+            $('#icons').hide();
+        }
+
+        if(customIconImage.attr('src') != undefined && customIconImage.attr('src') != '') {
 				$('#choose-another-icon').css('display', '');
-				$('#choose-icon').css('display', 'none');
-			}
-		});
-		
+				$('#choose-icon').hide();
+        }else{
+            customIconImage.hide();
+        }
+
 		$('body').on('click', '#choose-another-icon a', function(e){
 			e.preventDefault();
 			e.stopPropagation();
 			
-			$('#choose-another-icon').css('display', 'none');
+			$('#choose-another-icon').hide();
 			$('#choose-icon').css('display', '');
-			$('#cusom-icon-image').css('display', 'none');
+			$('#choose-icon input').val('');
+            customIconImage.hide();
 		});
 		$('body').on('change', '#choose-icon input', function(){
 			
@@ -734,9 +737,9 @@
 				contentType: false, 
 				success: function(data) {
 					$('#choose-another-icon').css('display', '');
-					$('#choose-icon').css('display', 'none');
-					$('#cusom-icon-image').css('display', '');
-					$('#cusom-icon-image').attr('src', data);
+					$('#choose-icon').hide();
+                    customIconImage.attr('src', data);
+                    customIconImage.css('display', '');
 					$('#custom_icon_file').val(data);
 				}
 			});

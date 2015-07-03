@@ -8,39 +8,41 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 	public function __construct($settings){
 		parent::__construct($settings);
 
-		$this->option_key = $settings['option_key'];	
+		$this->option_key = $settings['option_key'];
 		$this->content_types_options = get_option($this->option_key); // get content types options
 		$this->data_types_path = FRAMEWORK_DIR.'data-types/';
 
 		// add actions
 		//add_action( 'init', array($this, 'register_custom_content_type'));
 		add_action( 'add_meta_boxes', array( $this, 'add_some_meta_box' ) );
+		add_action( 'load_conditional_script', array( $this, 'load_conditional_script_func' ), 10, 1 );
 
 		/* Do something with the data entered */
 		add_action( 'save_post', array($this, 'save_postdata') );
 
 		add_action('wp_ajax_get_meta_field_settings', array($this, 'get_meta_field_settings'));
-		add_action('wp_ajax_save_inputs_fields', array($this, 'save_inputs_fields'));	
-		
+		add_action('wp_ajax_save_inputs_fields', array($this, 'save_inputs_fields'));
+
 		add_action('wp_ajax_save_custom_icon', array($this, 'save_custom_icon'));
-		
+
 		add_action('wp_ajax_get_custom_icon', array($this, 'get_custom_icon'));
 
 		add_action('admin_head', array($this, 'set_icon_styles_to_post_type'));
-		
+
 		//add_action('init', array($this, 'init'));
 
 	}
 
-	public function add_some_meta_box(){	
+	public function add_some_meta_box(){
 		$current_post_type = get_post_type();
 		$current_post = get_post();
 		$content_type = $this->get_custom_content_types($current_post_type);
-		
+
 		wp_enqueue_style('content_types_css', FRAMEWORK_URL.'extensions/content-types/css/content-types.css');
 		wp_enqueue_style( 'wp-color-picker');
 		wp_enqueue_style('rw_nouislider_css', FRAMEWORK_URL.'data-types/range-slider/css/jquery.nouislider.css');
-		
+		wp_enqueue_style('styles_css', FRAMEWORK_URL.'framework/css/styles.css');
+
 		//need to test this
 		wp_enqueue_script('ace', FRAMEWORK_URL.'data-types/code-editor/js/ace/src-noconflict/ace.js');
 		wp_enqueue_script( 'wp-color-picker');
@@ -53,7 +55,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				$content_types['fields'] = $this->get_assigned_fields();
 				$this->add_meta_box($content_types, $current_post_type);
 			} break;
-			
+
 			case 'page':{
 				// add metaboxes to pages
 				$content_types['fields'] = $this->get_assigned_fields('page');
@@ -64,7 +66,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				if($content_type && !empty($content_type)){
 		    		// include all needed js and css files
 		    		 wp_enqueue_script( 'jquery' );
-		    		 wp_enqueue_script( 'wp-color-picker' );		            		 
+		    		 wp_enqueue_script( 'wp-color-picker' );
 		    		 wp_enqueue_script( 'jqueryui', FRAMEWORK_URL.'framework/js/jquery-ui.min.js' );
 
 		    		 wp_enqueue_style( 'wp-color-picker' );
@@ -76,7 +78,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				}
 			} break;
 		}
-	}		
+	}
 
 	// get assigned fields by post type
 	function get_assigned_fields($post_type = 'post'){
@@ -93,18 +95,19 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function add_meta_box($content_type = array(), $current_post_type = 'post'){
+		do_action('load_conditional_script', $content_type);
 		if(!empty($content_type) && !empty($content_type['fields'])){
-			foreach ($content_type['fields'] as $key => $value) {				
+			foreach ($content_type['fields'] as $key => $value) {
 				$field = $this->get_custom_fields($value);
 				if( ! empty($field['inputs']) ) {
 					$data_types_path = $this->data_types_path;
-					
+
 					add_filter('formsbuilder_name_attr_title', array($this, 'get_formsbuilder_name_attr_title'), 5, 4);
 					add_filter('formsbuilder_dev_description', array($this, 'get_formsbuilder_dev_description'), 5, 4);
 					//remove default formsbuilder filter
 					remove_filter('formsbuilder_name_attr_title', array('FormsBuilder', 'get_formsbuilder_name_attr_title'), 20);
 					remove_filter('formsbuilder_dev_description', array('FormsBuilder', 'get_formsbuilder_dev_description'), 20);
-					
+
 					add_meta_box(
 						$field['alias'], rf__($field['name']), function($post) use ($field) {
 							global $libraries, $content_types_settings, $content_types_admin, $post, $contentTypeMetaBox;
@@ -118,23 +121,23 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
 							$alias = 'formsbuilder_' . $form_settings->settings->alias . '_' . $post->ID;
 							$form_builder->render_form($form_settings, false, $content_types_settings, $content_types_admin, $alias);
-						}, 
+						},
 						$current_post_type, 'advanced', 'high'
 					);
 				}
 			}
 		}
 	}
-	
+
 	public static function get_formsbuilder_name_attr_title($content, $field_alias, $title, $alias) {
 		$title = '<span title="get_options_meta(\''.$field_alias.'\')">'. $title .'</span>';
-		
+
 		return $title;
 	}
-	
+
 	public static function get_formsbuilder_dev_description($content, $fieldCaption, $field_alias, $alias) {
 		$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_meta(\''.$field_alias.'\')</code></span>';
-		
+
 		return $fieldCaption;
 	}
 
@@ -144,7 +147,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				$this->content_types_options['default_content_types']['post']['taxonomies'] = $taxonomies;
 				$this->content_types_options['default_content_types']['post']['fields'] = $fields;
 			} break;
-			
+
 			case 'pages':{
 				$this->content_types_options['default_content_types']['pages']['taxonomies'] = $taxonomies;
 				$this->content_types_options['default_content_types']['pages']['fields'] = $fields;
@@ -162,7 +165,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				case 'post':{
 					$content_type['fields'] = $this->get_assigned_fields();
 				} break;
-				
+
 				case 'page':{
 					$content_type['fields'] = $this->get_assigned_fields('page');
 				} break;
@@ -171,26 +174,26 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 					$content_type = $this->get_custom_content_types($_POST['post_type']);
 				} break;
 			}
-		else 
+		else
 			$content_type = array();
 
 		if(isset($content_type) && !empty($content_type['fields'])){
-			foreach ($content_type['fields'] as $key => $field_alias) {				
+			foreach ($content_type['fields'] as $key => $field_alias) {
 				$options = array();
 				$field = $this->get_custom_fields($field_alias);
-				
+
 				if( ! empty($field['inputs']) ) {
 					foreach ($field['inputs']['elements'] as $field_key => $field_values) {
 						if(isset($field_values['alias'])){
 							$options['form_key'] = $field_alias.'_'.$post_id;
 							$options['types'][$field_values['alias']] = $field_values['type'];
 							$options['vals'][$field_values['alias']] = (isset($_POST[$field_values['alias']])) ? $_POST[$field_values['alias']] : '';
-							update_post_meta($post_id, $field_values['alias'], $options['vals'][$field_values['alias']]); 
+							update_post_meta($post_id, $field_values['alias'], $options['vals'][$field_values['alias']]);
 						}
 					}
 					$form_builder->save_custom_options($options);
 				}
-			}		
+			}
 		}
 	}
 
@@ -207,7 +210,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		if($alias == null){
 			return $this->content_types_options['content_types'];
 		}
-		else{ 
+		else{
 			return isset($this->content_types_options['content_types'][$alias]) ? $this->content_types_options['content_types'][$alias] : false;
 		}
 	}
@@ -230,7 +233,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		$default_posts_types_keys = get_post_types(array());
 		$default_posts_types = array();
 		foreach ($default_posts_types_keys as $post_type) {
-			if(!in_array($post_type, $this->content_types_options['post_types'])){				
+			if(!in_array($post_type, $this->content_types_options['post_types'])){
 				$default_posts_types[$post_type] = get_post_type_object($post_type);
 			}
 		}
@@ -244,7 +247,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		}
 	}
 
-	public function delete_custom_taxonomy($alias = null){		
+	public function delete_custom_taxonomy($alias = null){
 		if($alias != null){
 			unset($this->content_types_options['taxonomies'][$alias]);
 			update_option($this->option_key, $this->content_types_options);
@@ -268,14 +271,14 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 			}
 			// Assign field on checked posts types
 			if(isset($this->content_types_options['content_types']))
-				foreach ($this->content_types_options['content_types'] as $key => $value) {				
+				foreach ($this->content_types_options['content_types'] as $key => $value) {
 					if(isset($options['post_types']) && in_array($key, $options['post_types'])){
 						if(isset($this->content_types_options['content_types'][$key]['fields']) && !in_array($options['alias'], $this->content_types_options['content_types'][$key]['fields'])){
 							$this->content_types_options['content_types'][$key]['fields'][] = $options['alias'];
-						}					
+						}
 					}
 				}
-			
+
 			$this->content_types_options['fields'][$options['alias']] = $options;
 			$this->content_types_options['fields'][$options['alias']]['inputs'] = $inputs;
 
@@ -283,7 +286,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		}
 	}
 
-	public function delete_custom_field($alias = null){		
+	public function delete_custom_field($alias = null){
 		if($alias != null){
 			foreach($this->content_types_options['content_types'] as $key => $value) {
 				if(isset($value['fields'])) {
@@ -327,32 +330,43 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		echo json_encode($return);
 		die();
 	}
-	
+
 	function save_custom_icon() {
 		ini_set('LimitRequestLine', '65535');
 		if(!function_exists('WP_Filesystem'))
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-			
-		
+
+
 		if(!is_dir(__DIR__.'/tmp_custom_image')) {
 			$wp_filesystem->mkdir(__DIR__.'/tmp_custom_image');
 		}
-		
-		move_uploaded_file($_FILES["custom_icon"]["tmp_name"], __DIR__.'/tmp_custom_image/' . $_FILES["custom_icon"]["name"]);
-		$file_data = $wp_filesystem->get_contents(__DIR__.'/tmp_custom_image/' . $_FILES["custom_icon"]["name"]);
-		
+
+        $localFile = __DIR__.'/tmp_custom_image/' . $_FILES["custom_icon"]["name"];
+
+        move_uploaded_file($_FILES["custom_icon"]["tmp_name"], $localFile);
+
+        $image = wp_get_image_editor($localFile);
+
+        if($image->supports_mime_type($_FILES["custom_icon"]['type']) && !is_wp_error($image)){
+
+            $image->resize(16, 16);
+            $image->save($localFile);
+
+        }
+
+        $file_data = $wp_filesystem->get_contents($localFile);
 		echo "data:".$_FILES["custom_icon"]['type'].";base64,".base64_encode($file_data);
 		die();
 	}
-	
+
 	function get_custom_icon() {
 		$data = get_option($this->option_key);
-		
+
 		if(!isset($_REQUEST['content_type']) || (isset($_REQUEST['content_type']) && !isset($data['content_types'][$_REQUEST['content_type']])))
 			die();
-		
+
 		$imgstr = $data['content_types'][$_REQUEST['content_type']]['advanced']['custom_icon_file'];
 		if($imgstr == '')
 			die();
@@ -361,12 +375,11 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		}
 
 		$content = base64_decode($matches[2]);
-		
+
 		header('Content-Type: '.$matches[1]);
 		header('Content-Length: '.strlen($content));
 
 		echo $content;
-		
 		die();
 	}
 
@@ -376,7 +389,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 			foreach ($this->content_types_options['content_types'] as $key => $value) {
 				if(isset($value['advanced']['menu_icon']) && $value['advanced']['menu_icon'] != 'custom-icon'){
 				    ?>
-				    <script type="text/javascript">			    			         
+				    <script type="text/javascript">
 						(function($){
 							$(function(){
 								$('#menu-posts-<?php echo $key; ?>').addClass("<?php echo $value['advanced']['menu_icon']; ?>")
@@ -403,19 +416,19 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		add_action( 'init', array( $this, 'init' ) );
 	}
 
-	function init() {		
+	function init() {
 		global $content_types_admin;
-		
+
 		if(!function_exists('WP_Filesystem'))
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-			
-		
+
+
 		if(is_dir(__DIR__.'/tmp_custom_image')) {
 			$wp_filesystem->rmdir(__DIR__.'/tmp_custom_image', true);
 		}
-		
+
 		if ( isset( $_REQUEST['navigation'] ) && !empty( $_REQUEST['navigation'] ) ) {
 			$content_types_admin->navigation = $_REQUEST['navigation'];
 		}
@@ -423,7 +436,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		if( isset( $_REQUEST['action'] ) && !empty( $_REQUEST['action'] ) ){
 			$content_types_admin->action = $_REQUEST['action'];
 		}
-		
+
 		//php redirection instead javascript in admin.php
 		if ( $content_types_admin->action == 'update-post-type' || $content_types_admin->action == 'update-post-type-main') {
 			switch ($content_types_admin->action) {
@@ -436,15 +449,15 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 						$options['alias'] = isset($_GET['alias']) ? $_GET['alias'] :  sanitize_title($_POST['labels']['name']);
 						$content_types_admin->add_custom_content_type($options);
 						//admin.php?page=content-types
-						
+
 						header('Location: '.admin_url('admin.php?page=content-types'));
 						die();
-						
+
 					} else {
 						flush_rewrite_rules();
 					}
 				} break;
-			
+
 				case 'update-post-type-main':{
 					$options = $_POST;
 					$content_types_admin->save_main_options($options);
@@ -455,8 +468,14 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		}
 	}
 
+	function load_conditional_script_func($content_type = array()){
+		if( isset($content_type['fields']) && count($content_type['fields']) ) {
+			wp_enqueue_script('condition-script', FRAMEWORK_URL.'framework/includes/options-page-render/js/condition-script.js');
+		}
+	}
+
 	function after_settings_init() {
-		
+
 		/* nothing */
 
   	}
@@ -465,18 +484,18 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
 		// If all is OK
 		return true;
-		
+
 	}
-	
+
 	function load_objects() {
-		global $content_types_settings;		
+		global $content_types_settings;
 		$this->data = $content_types_settings->load_objects();
 		return $this->data;
 	}
 
 	function load_admin_js() {
 		/* none */
-	} 
+	}
 
 }
 ?>
