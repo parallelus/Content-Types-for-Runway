@@ -56,10 +56,10 @@ if( isset($content_types_settings) && !IS_CHILD ) {
 
 // Load admin components
 if ( is_admin() ) {
-	if( (IS_CHILD && get_template() == 'runway-framework') || $need_content_type ) {
+	//if( (IS_CHILD && get_template() == 'runway-framework') || $need_content_type ) {
 		include('settings-object.php');
 		$content_types_admin = new Content_Types_Admin_Object($settings);
-	}
+	//}
 }
 
 function title_buttons_add_new( $title ) {
