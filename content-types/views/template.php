@@ -2,68 +2,68 @@
 
 	// Beadcrumbs
 	$navText = array();
-	
+
 	switch ($this->navigation) {
 		case 'add-post-type':{
-			$navText = array(__( 'Add Post Type', 'framework' ));
+			$navText = array(__( 'Add Post Type', 'runway' ));
 			wp_enqueue_script( 'auto-fill', FRAMEWORK_URL.'extensions/content-types/js/auto_fill.js' );
 		} break;
 		case 'edit-post-type':{
-			$navText = array(__( 'Edit Post Type', 'framework' ));
-		} break;	
+			$navText = array(__( 'Edit Post Type', 'runway' ));
+		} break;
 		case 'confirm-delete-post-type':{
-			$navText = array(__( 'Delete Post Type', 'framework' ));
+			$navText = array(__( 'Delete Post Type', 'runway' ));
 		} break;
 
 		case 'add-taxonomy':{
-			$navText = array(__( 'Add taxonomy', 'framework' ));
+			$navText = array(__( 'Add taxonomy', 'runway' ));
 		} break;
 		case 'edit-taxonomy':{
-			$navText = array(__( 'Edit Taxonomy', 'framework' ));
+			$navText = array(__( 'Edit Taxonomy', 'runway' ));
 		} break;
 		case 'confirm-delete-taxonomy':{
-			$navText = array(__( 'Delete Taxonomy', 'framework' ));
+			$navText = array(__( 'Delete Taxonomy', 'runway' ));
 		} break;
 
 		case 'add-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Add Field', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Add Field', 'runway' ));
 		} break;
 		case 'edit-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Edit Field', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Edit Field', 'runway' ));
 		} break;
 		case 'confirm-delete-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Delete Field', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Delete Field', 'runway' ));
 		} break;
 
 		case 'add-inputs':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ));
 		} break;
 
 		case 'delete-input':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ));
 		} break;
 
 		case 'edit-input':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
+			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ));
 		} break;
-		
-	}  
-	
+
+	}
+
 	if($this->navigation != '' && $this->navigation != 'taxonomies' && $this->navigation != 'fields')
 		$this->navigation_bar( $navText );
 
 ?>
 <?php if(!in_array($this->navigation, array('add-post-type', 'edit-post-type', 'confirm-delete-post-type', 'add-taxonomy', 'edit-taxonomy', 'confirm-delete-taxonomy', 'add-field', 'edit-field', 'confirm-delete-field', 'add-inputs', 'add-input-field', 'delete-input'))): ?>
 	<h2 class="nav-tab-wrapper tab-controlls" style="padding-top: 9px;">
-		<a href="<?php echo $this->self_url(); ?>" class="nav-tab <?php if($this->navigation == '' || $this->navigation == 'edit-post-type') {echo "nav-tab-active";} ?>"><?php _e('Content Types', 'framework') ?></a>
-		<a href="<?php echo $this->self_url('taxonomies'); ?>" class="nav-tab <?php if($this->navigation == 'taxonomies' || $this->navigation == 'edit-taxonomy') {echo "nav-tab-active";} ?>"><?php _e('Taxonomies', 'framework') ?></a>
-		<a href="<?php echo $this->self_url('fields'); ?>" class="nav-tab <?php if($this->navigation == 'fields' || $this->navigation == 'edit-field') {echo "nav-tab-active";} ?>"><?php _e('Fields', 'framework') ?></a>
+		<a href="<?php echo $this->self_url(); ?>" class="nav-tab <?php if($this->navigation == '' || $this->navigation == 'edit-post-type') {echo "nav-tab-active";} ?>"><?php _e('Content Types', 'runway') ?></a>
+		<a href="<?php echo $this->self_url('taxonomies'); ?>" class="nav-tab <?php if($this->navigation == 'taxonomies' || $this->navigation == 'edit-taxonomy') {echo "nav-tab-active";} ?>"><?php _e('Taxonomies', 'runway') ?></a>
+		<a href="<?php echo $this->self_url('fields'); ?>" class="nav-tab <?php if($this->navigation == 'fields' || $this->navigation == 'edit-field') {echo "nav-tab-active";} ?>"><?php _e('Fields', 'runway') ?></a>
 	</h2>
 <?php endif; ?>
 
 <?php
 	// navigation handling
-	switch ($this->action) {	
+	switch ($this->action) {
 
 		case 'update-taxonomy':{
 			if( isset($_POST['labels']['name'], $_POST['labels']['singular_name'], $_POST['labels']['menu_name'], $_POST['labels']['parent_item_colon'])){
@@ -87,14 +87,14 @@
 		case 'update-default-post-type':{
 			$taxonomies = (!empty($_REQUEST['taxonomies'])) ? $_REQUEST['taxonomies'] : array();
 			$fields = (!empty($_REQUEST['fields'])) ? $_REQUEST['fields'] : array();
-			$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'post';				
+			$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'post';
 			$content_types_admin->update_default_content_type($taxonomies, $fields, $type);
 		} break;
 
 		default: { } break;
 	}
 	// navigation handling
-	switch ($this->navigation) {		
+	switch ($this->navigation) {
 		case 'taxonomies':{
 			$this->view('taxonomies');
 		} break;
@@ -126,7 +126,7 @@
 
 				$link = admin_url('admin.php?page=content-types&navigation=taxonomies');
 			    $redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-			    echo $redirect;				
+			    echo $redirect;
 			}
 		} break;
 
@@ -167,10 +167,10 @@
 
 		case 'add-inputs':{
 			if(isset($_GET['alias']) && $_GET['alias'] != ''){
-				
+
 				global $libraries;
 				$form_builder = $libraries['FormsBuilder'];
-				
+
 				// Set resolutions to used elements
 				$form_builder->resolutions = array(
 					'title' => false,
@@ -248,4 +248,4 @@
 		default: {
 			$this->view('main');
 		} break;
-	} 
+	}

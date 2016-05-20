@@ -16,7 +16,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-	'name' => __('Content Types', 'framework'), 
+	'name' => __('Content Types', 'runway'),
 	'option_key' => $shortname.'content_types',
 	'fields' => $fields,
 	'default' => $default,
@@ -67,10 +67,10 @@ function title_buttons_add_new( $title ) {
 	$navigation = (isset($_GET['navigation'])) ? $_GET['navigation'] : '';
 
 	if( $page == 'content-types'&& $navigation == 'taxonomies' ){
-		$title .= ' <a href="?page=content-types&navigation=add-taxonomy" class="add-new-h2">'. __( 'Add New Taxonomy', FRAMEWORK_TEXT ) .'</a>';		
+		$title .= ' <a href="?page=content-types&navigation=add-taxonomy" class="add-new-h2">'. __( 'Add New Taxonomy', FRAMEWORK_TEXT ) .'</a>';
 	}
 	elseif( $page == 'content-types'&& $navigation == 'fields' ){
-		$title .= ' <a href="?page=content-types&navigation=add-field" class="add-new-h2">'. __( 'Add New Field', FRAMEWORK_TEXT ) .'</a>';				
+		$title .= ' <a href="?page=content-types&navigation=add-field" class="add-new-h2">'. __( 'Add New Field', FRAMEWORK_TEXT ) .'</a>';
 	}
 
 	elseif ($page == 'content-types' && ($navigation == 'add-inputs' || $navigation == 'delete-input')) {
@@ -79,7 +79,7 @@ function title_buttons_add_new( $title ) {
 	elseif ( $page == 'content-types' && $navigation == '') {
 		$title .= ' <a href="?page=content-types&navigation=add-post-type" class="add-new-h2">'. __( 'Add New Content Type', FRAMEWORK_TEXT ) .'</a>';
 	}
-	
+
 	return $title;
 }
 add_filter( 'framework_admin_title', 'title_buttons_add_new' );

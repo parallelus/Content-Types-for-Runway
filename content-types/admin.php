@@ -1,12 +1,12 @@
-<?php 
-	global $content_types_settings, $content_types_admin; 
+<?php
+	global $content_types_settings, $content_types_admin;
 
 	// navigation handling
 	if ( $this->action == 'update-post-type' || $this->action == 'update-post-type-main') {
-		switch ($this->action) {	
+		switch ($this->action) {
 			case 'update-post-type':{
 				if ( isset($_POST['labels']['name'], $_POST['labels']['singular_name'], $_POST['labels']['menu_name'], $_POST['labels']['parent_item_colon'])) {
-					_e('Saving...', 'framework');
+					_e('Saving...', 'runway');
 					$options = $_POST;
 					foreach($options['labels'] as $key => $value) {
 						$options['labels'][$key] = stripslashes($value);

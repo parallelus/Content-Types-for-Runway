@@ -2,15 +2,15 @@
 <table class="wp-list-table widefat" style="width: auto; min-width: 50%;">
 	<thead>
 		<tr>
-			<th id="field-name" class="manage-column column-name"><?php _e('Taxonomy', 'framework') ?></th>
-			<th id="field-header" class="manage-column column-header"><?php _e('Alias', 'framework') ?></th>
-			<th id="field-header" class="manage-column column-header"><?php _e('Actions', 'framework') ?></th>
+			<th id="field-name" class="manage-column column-name"><?php _e('Taxonomy', 'runway') ?></th>
+			<th id="field-header" class="manage-column column-header"><?php _e('Alias', 'runway') ?></th>
+			<th id="field-header" class="manage-column column-header"><?php _e('Actions', 'runway') ?></th>
 		</tr>
 	</thead>
-	<tbody id="the-list">	
-		<?php 
+	<tbody id="the-list">
+		<?php
 			if(!empty($this->content_types_options['taxonomies'])) :
-			foreach ((array)$this->content_types_options['taxonomies'] as $content_type => $values) : 
+			foreach ((array)$this->content_types_options['taxonomies'] as $content_type => $values) :
 		?>
 			<tr class="active">
 				<td class="column-name">
@@ -18,19 +18,19 @@
 				</td>
 				<td class="column-alias">
 					<?php echo $values['alias']; ?>
-				</td>				
+				</td>
 				<td class="column-actions">
-					<a href="<?php echo $this->self_url('edit-taxonomy'); ?>&alias=<?php echo $values['alias']; ?>"><?php echo __('Edit', 'framework'); ?></a> | 
-					<a href="<?php echo $this->self_url('confirm-delete-taxonomy'); ?>&alias=<?php echo $values['alias']; ?>"><?php echo __('Delete', 'framework'); ?></a>
-				</td>				
+					<a href="<?php echo $this->self_url('edit-taxonomy'); ?>&alias=<?php echo $values['alias']; ?>"><?php echo __('Edit', 'runway'); ?></a> |
+					<a href="<?php echo $this->self_url('confirm-delete-taxonomy'); ?>&alias=<?php echo $values['alias']; ?>"><?php echo __('Delete', 'runway'); ?></a>
+				</td>
 			</tr>
 		<?php endforeach; ?>
-		<?php else : ?>	
+		<?php else : ?>
 			<tr class="active">
 				<td class="no-items" colspan="2">
-					<?php echo __('No custom taxonomies to display it\'s here', 'framework'); ?>
-				</td>			
-			</tr>			
+					<?php echo __('No custom taxonomies to display it\'s here', 'runway'); ?>
+				</td>
+			</tr>
 		<?php endif;  ?>
 	</tbody>
 </table>
