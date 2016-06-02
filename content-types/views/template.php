@@ -4,68 +4,68 @@
 	$navText = array();
 
 	switch ($this->navigation) {
-		case 'add-post-type':{
-			$navText = array(__( 'Add Post Type', 'runway' ));
+		case 'add-post-type': {
+			$navText = array( __( 'Add Post Type', 'runway' ) );
 			wp_enqueue_script( 'auto-fill', FRAMEWORK_URL.'extensions/content-types/js/auto_fill.js' );
 		} break;
-		case 'edit-post-type':{
-			$navText = array(__( 'Edit Post Type', 'runway' ));
+		case 'edit-post-type': {
+			$navText = array( __( 'Edit Post Type', 'runway' ) );
 		} break;
-		case 'confirm-delete-post-type':{
-			$navText = array(__( 'Delete Post Type', 'runway' ));
-		} break;
-
-		case 'add-taxonomy':{
-			$navText = array(__( 'Add taxonomy', 'runway' ));
-		} break;
-		case 'edit-taxonomy':{
-			$navText = array(__( 'Edit Taxonomy', 'runway' ));
-		} break;
-		case 'confirm-delete-taxonomy':{
-			$navText = array(__( 'Delete Taxonomy', 'runway' ));
+		case 'confirm-delete-post-type': {
+			$navText = array( __( 'Delete Post Type', 'runway' ) );
 		} break;
 
-		case 'add-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Add Field', 'runway' ));
+		case 'add-taxonomy': {
+			$navText = array( __( 'Add taxonomy', 'runway' ) );
 		} break;
-		case 'edit-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Edit Field', 'runway' ));
+		case 'edit-taxonomy': {
+			$navText = array( __( 'Edit Taxonomy', 'runway' ) );
 		} break;
-		case 'confirm-delete-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Delete Field', 'runway' ));
-		} break;
-
-		case 'add-inputs':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ));
+		case 'confirm-delete-taxonomy': {
+			$navText = array( __( 'Delete Taxonomy', 'runway' ) );
 		} break;
 
-		case 'delete-input':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ));
+		case 'add-field': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Add Field', 'runway' ) );
+		} break;
+		case 'edit-field': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Edit Field', 'runway' ) );
+		} break;
+		case 'confirm-delete-field': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Delete Field', 'runway' ) );
 		} break;
 
-		case 'edit-input':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ));
+		case 'add-inputs': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ) );
+		} break;
+
+		case 'delete-input': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ) );
+		} break;
+
+		case 'edit-input': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ) );
 		} break;
 
 	}
 
-	if($this->navigation != '' && $this->navigation != 'taxonomies' && $this->navigation != 'fields')
+	if( $this->navigation != '' && $this->navigation != 'taxonomies' && $this->navigation != 'fields' )
 		$this->navigation_bar( $navText );
 
 ?>
-<?php if(!in_array($this->navigation, array('add-post-type', 'edit-post-type', 'confirm-delete-post-type', 'add-taxonomy', 'edit-taxonomy', 'confirm-delete-taxonomy', 'add-field', 'edit-field', 'confirm-delete-field', 'add-inputs', 'add-input-field', 'delete-input'))): ?>
+<?php if( ! in_array( $this->navigation, array( 'add-post-type', 'edit-post-type', 'confirm-delete-post-type', 'add-taxonomy', 'edit-taxonomy', 'confirm-delete-taxonomy', 'add-field', 'edit-field', 'confirm-delete-field', 'add-inputs', 'add-input-field', 'delete-input' ) ) ): ?>
 	<h2 class="nav-tab-wrapper tab-controlls" style="padding-top: 9px;">
-		<a href="<?php echo $this->self_url(); ?>" class="nav-tab <?php if($this->navigation == '' || $this->navigation == 'edit-post-type') {echo "nav-tab-active";} ?>"><?php _e('Content Types', 'runway') ?></a>
-		<a href="<?php echo $this->self_url('taxonomies'); ?>" class="nav-tab <?php if($this->navigation == 'taxonomies' || $this->navigation == 'edit-taxonomy') {echo "nav-tab-active";} ?>"><?php _e('Taxonomies', 'runway') ?></a>
-		<a href="<?php echo $this->self_url('fields'); ?>" class="nav-tab <?php if($this->navigation == 'fields' || $this->navigation == 'edit-field') {echo "nav-tab-active";} ?>"><?php _e('Fields', 'runway') ?></a>
+		<a href="<?php echo $this->self_url(); ?>" class="nav-tab <?php if( $this->navigation == '' || $this->navigation == 'edit-post-type' ) {echo "nav-tab-active";} ?>"><?php _e( 'Content Types', 'runway' ) ?></a>
+		<a href="<?php echo $this->self_url( 'taxonomies' ); ?>" class="nav-tab <?php if( $this->navigation == 'taxonomies' || $this->navigation == 'edit-taxonomy' ) {echo "nav-tab-active";} ?>"><?php _e( 'Taxonomies', 'runway' ) ?></a>
+		<a href="<?php echo $this->self_url( 'fields' ); ?>" class="nav-tab <?php if( $this->navigation == 'fields' || $this->navigation == 'edit-field' ) {echo "nav-tab-active";} ?>"><?php _e( 'Fields', 'runway' ) ?></a>
 	</h2>
 <?php endif; ?>
 
 <?php
 	// navigation handling
-	switch ($this->action) {
+	switch ( $this->action ) {
 
-		case 'update-taxonomy':{
+		case 'update-taxonomy': {
 			if( isset($_POST['labels']['name'], $_POST['labels']['singular_name'], $_POST['labels']['menu_name'], $_POST['labels']['parent_item_colon'])){
 				$options = $_POST;
 				foreach($options['labels'] as $key => $value)
