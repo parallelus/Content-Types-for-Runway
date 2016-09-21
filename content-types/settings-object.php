@@ -333,14 +333,20 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
 	function save_custom_icon() {
 		ini_set( 'LimitRequestLine', '65535' );
-		if( ! function_exists( 'WP_Filesystem' ) )
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		WP_Filesystem();
-		global $wp_filesystem;
+		if ( function_exists( 'get_runway_wp_filesystem' ) ) {
+			$wp_filesystem = get_runway_wp_filesystem();
+		} else {
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			}
+
+			WP_Filesystem();
+			global $wp_filesystem;
+		}
 
 
 		if( ! is_dir( __DIR__.'/tmp_custom_image' ) ) {
-			$wp_filesystem->mkdir( __DIR__.'/tmp_custom_image' );
+			$wp_filesystem->mkdir( apply_filters( 'rf_prepared_path', __DIR__.'/tmp_custom_image' ) );
 		}
 
         $localFile = __DIR__.'/tmp_custom_image/' . $_FILES["custom_icon"]["name"];
@@ -356,7 +362,7 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
         }
 
-        $file_data = $wp_filesystem->get_contents( $localFile );
+        $file_data = $wp_filesystem->get_contents( apply_filters( 'rf_prepared_path', $localFile ) );
 		echo "data:".$_FILES["custom_icon"]['type'].";base64,".base64_encode( $file_data );
 		die();
 	}
@@ -419,14 +425,19 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 	function init() {
 		global $content_types_admin;
 
-		if( ! function_exists( 'WP_Filesystem' ) )
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		WP_Filesystem();
-		global $wp_filesystem;
+		if ( function_exists( 'get_runway_wp_filesystem' ) ) {
+			$wp_filesystem = get_runway_wp_filesystem();
+		} else {
+			if ( ! function_exists( 'WP_Filesystem' ) ) {
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			}
 
-
-		if( is_dir( __DIR__.'/tmp_custom_image' ) ) {
-			$wp_filesystem->rmdir( __DIR__.'/tmp_custom_image', true );
+			WP_Filesystem();
+			global $wp_filesystem;
+		}
+		
+		if( is_dir( __DIR__ . '/tmp_custom_image' ) ) {
+			$wp_filesystem->rmdir( apply_filters( 'rf_prepared_path', __DIR__ . '/tmp_custom_image' ), true );
 		}
 
 		if ( isset( $_REQUEST['navigation'] ) && ! empty( $_REQUEST['navigation'] ) ) {
