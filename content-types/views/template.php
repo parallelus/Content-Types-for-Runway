@@ -2,70 +2,72 @@
 
 	// Beadcrumbs
 	$navText = array();
-	
+
 	switch ($this->navigation) {
-		case 'add-post-type':{
-			$navText = array(__( 'Add Post Type', 'framework' ));
+		case 'add-post-type': {
+			$navText = array( __( 'Add Post Type', 'runway' ) );
 			wp_enqueue_script( 'auto-fill', FRAMEWORK_URL.'extensions/content-types/js/auto_fill.js' );
 		} break;
-		case 'edit-post-type':{
-			$navText = array(__( 'Edit Post Type', 'framework' ));
-		} break;	
-		case 'confirm-delete-post-type':{
-			$navText = array(__( 'Delete Post Type', 'framework' ));
+		case 'edit-post-type': {
+			$navText = array( __( 'Edit Post Type', 'runway' ) );
+		} break;
+		case 'confirm-delete-post-type': {
+			$navText = array( __( 'Delete Post Type', 'runway' ) );
 		} break;
 
-		case 'add-taxonomy':{
-			$navText = array(__( 'Add taxonomy', 'framework' ));
+		case 'add-taxonomy': {
+			$navText = array( __( 'Add taxonomy', 'runway' ) );
 		} break;
-		case 'edit-taxonomy':{
-			$navText = array(__( 'Edit Taxonomy', 'framework' ));
+		case 'edit-taxonomy': {
+			$navText = array( __( 'Edit Taxonomy', 'runway' ) );
 		} break;
-		case 'confirm-delete-taxonomy':{
-			$navText = array(__( 'Delete Taxonomy', 'framework' ));
-		} break;
-
-		case 'add-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Add Field', 'framework' ));
-		} break;
-		case 'edit-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Edit Field', 'framework' ));
-		} break;
-		case 'confirm-delete-field':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Delete Field', 'framework' ));
+		case 'confirm-delete-taxonomy': {
+			$navText = array( __( 'Delete Taxonomy', 'runway' ) );
 		} break;
 
-		case 'add-inputs':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
+		case 'add-field': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Add Field', 'runway' ) );
+		} break;
+		case 'edit-field': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Edit Field', 'runway' ) );
+		} break;
+		case 'confirm-delete-field': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Delete Field', 'runway' ) );
 		} break;
 
-		case 'delete-input':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
+		case 'add-inputs': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ) );
 		} break;
 
-		case 'edit-input':{
-			$navText = array('<a href="'.admin_url('admin.php?page=content-types&navigation=fields').'">'.__( 'Fields', 'framework' ).'</a>', __( 'Manage inputs', 'framework' ));
+		case 'delete-input': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ) );
 		} break;
-		
-	}  
-	
-	if($this->navigation != '' && $this->navigation != 'taxonomies' && $this->navigation != 'fields')
+
+		case 'edit-input': {
+			$navText = array( '<a href="'.admin_url( 'admin.php?page=content-types&navigation=fields' ).'">'.__( 'Fields', 'runway' ).'</a>', __( 'Manage inputs', 'runway' ) );
+		} break;
+
+	}
+
+	if( $this->navigation != '' && $this->navigation != 'taxonomies' && $this->navigation != 'fields' )
 		$this->navigation_bar( $navText );
 
 ?>
-<?php if(!in_array($this->navigation, array('add-post-type', 'edit-post-type', 'confirm-delete-post-type', 'add-taxonomy', 'edit-taxonomy', 'confirm-delete-taxonomy', 'add-field', 'edit-field', 'confirm-delete-field', 'add-inputs', 'add-input-field', 'delete-input'))): ?>
+<?php if( ! in_array( $this->navigation, array( 'add-post-type', 'edit-post-type', 'confirm-delete-post-type', 'add-taxonomy', 'edit-taxonomy', 'confirm-delete-taxonomy', 'add-field', 'edit-field', 'confirm-delete-field', 'add-inputs', 'add-input-field', 'delete-input' ) ) ): ?>
 	<h2 class="nav-tab-wrapper tab-controlls" style="padding-top: 9px;">
-		<a href="<?php echo $this->self_url(); ?>" class="nav-tab <?php if($this->navigation == '' || $this->navigation == 'edit-post-type') {echo "nav-tab-active";} ?>"><?php _e('Content Types', 'framework') ?></a>
-		<a href="<?php echo $this->self_url('taxonomies'); ?>" class="nav-tab <?php if($this->navigation == 'taxonomies' || $this->navigation == 'edit-taxonomy') {echo "nav-tab-active";} ?>"><?php _e('Taxonomies', 'framework') ?></a>
-		<a href="<?php echo $this->self_url('fields'); ?>" class="nav-tab <?php if($this->navigation == 'fields' || $this->navigation == 'edit-field') {echo "nav-tab-active";} ?>"><?php _e('Fields', 'framework') ?></a>
+		<a href="<?php echo $this->self_url(); ?>" class="nav-tab <?php if( $this->navigation == '' || $this->navigation == 'edit-post-type' ) {echo "nav-tab-active";} ?>"><?php _e( 'Content Types', 'runway' ) ?></a>
+		<a href="<?php echo $this->self_url( 'taxonomies' ); ?>" class="nav-tab <?php if( $this->navigation == 'taxonomies' || $this->navigation == 'edit-taxonomy' ) {echo "nav-tab-active";} ?>"><?php _e( 'Taxonomies', 'runway' ) ?></a>
+		<a href="<?php echo $this->self_url( 'fields' ); ?>" class="nav-tab <?php if( $this->navigation == 'fields' || $this->navigation == 'edit-field' ) {echo "nav-tab-active";} ?>"><?php _e( 'Fields', 'runway' ) ?></a>
 	</h2>
 <?php endif; ?>
 
 <?php
 	// navigation handling
-	switch ($this->action) {	
+	switch ( $this->action ) {
 
-		case 'update-taxonomy':{
+		case 'update-taxonomy': {
+			check_admin_referer( 'update-taxonomy', 'update-taxonomy-nonce' );
+
 			if( isset($_POST['labels']['name'], $_POST['labels']['singular_name'], $_POST['labels']['menu_name'], $_POST['labels']['parent_item_colon'])){
 				$options = $_POST;
 				foreach($options['labels'] as $key => $value)
@@ -76,25 +78,27 @@
 		} break;
 
 		case 'update-field':{
-			if(isset($_POST['name'])){
-				$options = $_POST;
-				$options['name'] = stripslashes($options['name']);
-				$options['alias'] = isset($_GET['alias']) ? $_GET['alias'] :  sanitize_title($_POST['name']);
-				$content_types_admin->add_custom_field($options);
+			check_admin_referer( 'update-field', 'update-field-nonce' );
+
+			if ( isset( $_POST['name'] ) ) {
+				$options          = $_POST;
+				$options['name']  = stripslashes( $options['name'] );
+				$options['alias'] = isset( $_GET['alias'] ) ? $_GET['alias'] : sanitize_title( $_POST['name'] );
+				$content_types_admin->add_custom_field( $options );
 			}
 		} break;
 
 		case 'update-default-post-type':{
 			$taxonomies = (!empty($_REQUEST['taxonomies'])) ? $_REQUEST['taxonomies'] : array();
 			$fields = (!empty($_REQUEST['fields'])) ? $_REQUEST['fields'] : array();
-			$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'post';				
+			$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : 'post';
 			$content_types_admin->update_default_content_type($taxonomies, $fields, $type);
 		} break;
 
 		default: { } break;
 	}
 	// navigation handling
-	switch ($this->navigation) {		
+	switch ($this->navigation) {
 		case 'taxonomies':{
 			$this->view('taxonomies');
 		} break;
@@ -113,20 +117,22 @@
 		case 'confirm-delete-taxonomy':{
 			$item_confirm = 'taxonomy';
 			$item_title = $content_types_admin->content_types_options['taxonomies'][$_GET['alias']]['labels']['name'];
-			$action_url_yes = admin_url('admin.php?page=content-types&navigation=delete-taxonomy&alias='.$_GET['alias']);
+			$action_url_yes = wp_nonce_url(admin_url('admin.php?page=content-types&navigation=delete-taxonomy&alias='.$_GET['alias']), 'delete-taxonomy');
 			$action_url_no = admin_url('admin.php?page=content-types&navigation=taxonomies');
 
 			require_once(get_template_directory().'/framework/templates/delete-confirmation.php');
 		} break;
 
 		case 'delete-taxonomy':{
+			check_admin_referer('delete-taxonomy');
+
 			if(isset($_GET['alias']) && $_GET['alias'] != ''){
 				$content_types_admin->delete_custom_taxonomy($_GET['alias']);
 				$val = (isset($val))? $val : array();
 
 				$link = admin_url('admin.php?page=content-types&navigation=taxonomies');
 			    $redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-			    echo $redirect;				
+			    echo $redirect;
 			}
 		} break;
 
@@ -148,13 +154,14 @@
 		case 'confirm-delete-field':{
 			$item_confirm = 'field';
 			$item_title = $content_types_admin->content_types_options['fields'][$_GET['alias']]['name'];
-			$action_url_yes = admin_url('admin.php?page=content-types&navigation=delete-field&alias='.$_GET['alias']);
+			$action_url_yes = wp_nonce_url(admin_url('admin.php?page=content-types&navigation=delete-field&alias='.$_GET['alias']), 'delete-field');
 			$action_url_no = admin_url('admin.php?page=content-types&navigation=fields');
 
 			require_once(get_template_directory().'/framework/templates/delete-confirmation.php');
 		} break;
 
 		case 'delete-field':{
+			check_admin_referer('delete-field');
 			if(isset($_GET['alias']) && $_GET['alias'] != ''){
 				$content_types_admin->delete_custom_field($_GET['alias']);
 				$val = (isset($val) )? $val : array();
@@ -167,10 +174,10 @@
 
 		case 'add-inputs':{
 			if(isset($_GET['alias']) && $_GET['alias'] != ''){
-				
+
 				global $libraries;
 				$form_builder = $libraries['FormsBuilder'];
-				
+
 				// Set resolutions to used elements
 				$form_builder->resolutions = array(
 					'title' => false,
@@ -222,13 +229,15 @@
 		case 'confirm-delete-post-type':{
 			$item_confirm = 'content type';
 			$item_title = $content_types_admin->content_types_options['content_types'][$_GET['alias']]['labels']['name'];
-			$action_url_yes = admin_url('admin.php?page=content-types&navigation=delete-post-type&alias='.$_GET['alias']);
+			$action_url_yes = wp_nonce_url(admin_url('admin.php?page=content-types&navigation=delete-post-type&alias='.$_GET['alias']), 'delete-post-type');
 			$action_url_no = admin_url('admin.php?page=content-types');
 
 			require_once(get_template_directory().'/framework/templates/delete-confirmation.php');
 		} break;
 
 		case 'delete-post-type':{
+			check_admin_referer('delete-post-type');
+
 			if(isset($_GET['alias']) && $_GET['alias'] != ''){
 				$content_types_admin->delete_custom_content_type($_GET['alias']);
 
@@ -248,4 +257,4 @@
 		default: {
 			$this->view('main');
 		} break;
-	} 
+	}
