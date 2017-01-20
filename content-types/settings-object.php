@@ -121,6 +121,8 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
 							$alias = 'formsbuilder_' . $form_settings->settings->alias . '_' . $post->ID;
 							$form_builder->render_form( $form_settings, false, $content_types_settings, $content_types_admin, $alias );
+
+							wp_nonce_field( 'content-types-box', 'content-types-box-nonce' );
 						},
 						$current_post_type, 'advanced', 'high'
 					);
@@ -157,6 +159,10 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 	}
 
 	public function save_postdata( $post_id ) {
+		if ( ! isset( $_POST['content-types-box-nonce'] ) || ! wp_verify_nonce( $_POST['content-types-box-nonce'], 'content-types-box' ) ) {
+			return $post_id;
+		}
+
 		global $libraries;
 		$form_builder = $libraries['FormsBuilder'];
 		$content_type = array();
@@ -312,6 +318,8 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function save_inputs_fields() {
+		check_ajax_referer( 'options-builder' );
+
 		$json_form = $_REQUEST['json_form'];
 		$form = json_decode(stripslashes( $json_form ), true );
 		$this->content_types_options['fields'][$form['settings']['alias']]['inputs'] = $form;
@@ -344,6 +352,10 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 			global $wp_filesystem;
 		}
 
+		if ( ! check_ajax_referer( 'update-post-type', 'nonce', false ) ) {
+			echo '';
+			die();
+		}
 
 		if( ! is_dir( __DIR__.'/tmp_custom_image' ) ) {
 			$wp_filesystem->mkdir( apply_filters( 'rf_prepared_path', __DIR__.'/tmp_custom_image' ) );
@@ -355,11 +367,14 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 
         $image = wp_get_image_editor($localFile);
 
-        if( $image->supports_mime_type( $_FILES["custom_icon"]['type']) && ! is_wp_error( $image ) ) {
+        if( ! is_wp_error( $image ) && $image->supports_mime_type( $_FILES["custom_icon"]['type'])  ) {
 
             $image->resize( 16, 16 );
             $image->save( $localFile );
 
+        } else {
+	        echo '';
+	        die();
         }
 
         $file_data = $wp_filesystem->get_contents( apply_filters( 'rf_prepared_path', $localFile ) );
@@ -452,6 +467,8 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 		if ( $content_types_admin->action == 'update-post-type' || $content_types_admin->action == 'update-post-type-main' ) {
 			switch ( $content_types_admin->action ) {
 				case 'update-post-type': {
+					check_admin_referer( 'update-post-type', 'update-post-type-nonce' );
+
 					if ( isset( $_POST['labels']['name'], $_POST['labels']['singular_name'], $_POST['labels']['menu_name'], $_POST['labels']['parent_item_colon'] ) ) {
 						$options = $_POST;
 						foreach( $options['labels'] as $key => $value ) {
@@ -470,6 +487,8 @@ class Content_Types_Admin_Object extends Runway_Admin_Object {
 				} break;
 
 				case 'update-post-type-main':{
+					check_admin_referer( 'update-post-type-main', 'update-post-type-main-nonce' );
+
 					$options = $_POST;
 					$content_types_admin->save_main_options( $options );
 					header( 'Location: '.admin_url( 'admin.php?page=content-types' ) );

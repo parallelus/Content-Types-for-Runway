@@ -1,5 +1,14 @@
 (function($){
 
+	var form = $('#add-edit-contenttype');
+	var nonce = '';
+
+	if (form.length) {
+		var formUrl = $('#add-edit-contenttype').attr('action');
+		var capturedNonce = /update-post-type-nonce=([^&]+)/.exec(formUrl)[1]; // Value is in [1] ('384' in our case)
+		var nonce = capturedNonce ? capturedNonce : '';
+	}
+
 	//main
 	$('#save-button-main').click(function(e){console.log("save-main");
 		$('#update-post-type-main').submit();
@@ -36,6 +45,7 @@
 		e.stopPropagation();
 
 		$('#choose-another-icon').hide();
+		$('#choose-icon-error').hide();
 		$('#choose-icon').css('display', '');
 		$('#choose-icon input').val('');
         customIconImage.hide();
@@ -45,6 +55,7 @@
 		var data = new FormData();
 		data.append('custom_icon', $(this)[0].files[0]);
 		data.append('action', 'save_custom_icon');
+		data.append('nonce', nonce);
 
 		$.ajax({
 			url: ajaxurl,
@@ -54,11 +65,26 @@
 			processData: false,
 			contentType: false,
 			success: function(data) {
-				$('#choose-another-icon').css('display', '');
+				if (typeof data === 'string' && $.trim(data).length > 0) {
+					$('#choose-another-icon').css('display', '');
+					$('#choose-icon').hide();
+					customIconImage.attr('src', data);
+					customIconImage.css('display', '');
+					$('#custom_icon_file').val(data);
+				} else {
+					$('#choose-icon-error').show();
+					$('#choose-another-icon').show();
+					$('#choose-icon input').val('');
+					$('#custom_icon_file').val('');
+					$('#choose-icon').hide();
+				}
+			},
+			error: function () {
+				$('#choose-icon-error').show();
+				$('#choose-another-icon').show();
+				$('#choose-icon input').val('');
+				$('#custom_icon_file').val('');
 				$('#choose-icon').hide();
-                customIconImage.attr('src', data);
-                customIconImage.css('display', '');
-				$('#custom_icon_file').val(data);
 			}
 		});
 	});

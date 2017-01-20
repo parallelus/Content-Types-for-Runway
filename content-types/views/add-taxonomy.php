@@ -1,4 +1,5 @@
 <form action="<?php echo $this->self_url( 'taxonomies' ); ?>&action=update-taxonomy<?php echo isset( $taxonomy ) ? '&alias='.$taxonomy['alias'] : ''; ?>" id="add-taxonomy" method="post">
+<?php wp_nonce_field( 'update-taxonomy', 'update-taxonomy-nonce' ); ?>
 <h3><?php echo __( 'Labels', 'runway' ); ?></h3>
 <table class="form-table">
 	<tbody>

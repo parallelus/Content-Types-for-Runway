@@ -5,6 +5,8 @@
 	if ( $this->action == 'update-post-type' || $this->action == 'update-post-type-main' ) {
 		switch ( $this->action ) {
 			case 'update-post-type': {
+				check_admin_referer( 'update-post-type', 'update-post-type-nonce' );
+
 				if ( isset( $_POST['labels']['name'], $_POST['labels']['singular_name'], $_POST['labels']['menu_name'], $_POST['labels']['parent_item_colon'] ) ) {
 					_e( 'Saving...', 'runway' );
 					$options = $_POST;
@@ -23,6 +25,8 @@
 			} break;
 
 			case 'update-post-type-main':{
+					check_admin_referer( 'update-post-type-main', 'update-post-type-main-nonce' );
+
 					$options = $_POST;
 					$content_types_admin->save_main_options( $options );
 					$link = admin_url( 'admin.php?page=content-types' );

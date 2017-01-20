@@ -13,7 +13,7 @@
 	wp_enqueue_style( 'dashicons_custom_style_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/custom-style.css' );
 ?>
 
-<form action="<?php echo $this->self_url(); ?>&action=update-post-type<?php echo isset( $post_type ) ? '&alias='.$post_type['alias'] : ''; ?>" id="add-edit-contenttype" method="post">
+<form action="<?php echo $this->self_url(); ?>&action=update-post-type<?php echo isset( $post_type ) ? '&alias='.$post_type['alias'] : ''; ?>&update-post-type-nonce=<?php echo wp_create_nonce( 'update-post-type' ); ?>" id="add-edit-contenttype" method="post">
 <h3><?php echo __( 'Labels', 'runway' ); ?></h3>
 <!-- LABELS SETTINGS BOX -->
 <table class="form-table">
@@ -254,15 +254,7 @@
 							</select>
 							<input class='dashicon-code-selected' name="advanced[menu-dashicon-code]" type="hidden" value=<?php echo isset( $post_type['advanced']['menu-dashicon-code'] ) ? $post_type['advanced']['menu-dashicon-code'] : '';?> >
 							<input class='dashicon-class-selected' name="advanced[menu-dashicon-class]" type="hidden" value=<?php echo isset( $post_type['advanced']['menu-dashicon-class'] ) ? $post_type['advanced']['menu-dashicon-class'] : '';?> >
-							<?php if( $_GET['navigation'] == 'add-post-type' ): ?>
-										<script type="text/javascript">
-										  	(function($){
-		        								$(document).ready(function() {
-		//									        $("#menu_icon").val('menu-icon-page').attr('selected',true);
-									            });
-										    })(jQuery);
-										</script>
-							<?php endif;
+							<?php
 							require_once( get_template_directory().'/framework/templates/dashicons.php' );
 							?>
 							<div id="custom-icon-upload" style="display:none;">
@@ -275,6 +267,9 @@
 								?>
 
 								<img src="<?php echo $src; ?>" id="cusom-icon-image" alt="<?php echo __( 'Custom icon', 'runway' ); ?>"/>
+								<div id="choose-icon-error" style="display: none;">
+									<?php echo __( 'Something went wrong...', 'runway' ); ?>
+								</div>
 								<div id="choose-another-icon" style="display: none;">
 									<a href="#"><?php echo __( 'Choose Another Icon', 'runway' ); ?></a>
 								</div>

@@ -37,7 +37,7 @@
 
 <!-- SET Hide/Show to Standalone theme-->
 <?php if( IS_CHILD && get_template() == 'runway-framework' ) { ?>
-	<form action="<?php echo $this->self_url().'&action=update-post-type-main';?>" id="update-post-type-main" method="post">
+	<form action="<?php echo wp_nonce_url($this->self_url().'&action=update-post-type-main', 'update-post-type-main', 'update-post-type-main-nonce');?>" id="update-post-type-main" method="post">
 		<div class="meta-box-sortables metabox-holder">
 			<hr>
 			<p>

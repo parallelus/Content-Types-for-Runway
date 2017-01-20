@@ -1,4 +1,5 @@
 <form action="<?php echo $this->self_url( 'fields' ); ?>&action=update-field<?php echo isset( $field ) ? '&alias='.$field['alias'] : ''; ?>" id="add-field" method="post">
+	<?php wp_nonce_field( 'update-field', 'update-field-nonce' ); ?>
 	<table class="form-table">
 		<tbody>
 			<tr class="">
